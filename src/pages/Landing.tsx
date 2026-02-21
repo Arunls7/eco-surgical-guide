@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import SlotMachineSelector from "@/components/SlotMachineSelector";
 import { ArrowRight, Leaf, BarChart3, ShieldCheck, Search, Cpu, MessageSquare, Check, Zap, Shield, FileCheck } from "lucide-react";
 import medicalBg from "@/assets/medical-pattern-bg.jpg";
 
@@ -202,6 +203,9 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
+      {/* Slot Machine Selector */}
+      <SlotMachineSelector />
 
       {/* Footer */}
       <footer className="py-10 text-center text-sm text-muted-foreground border-t border-border">
