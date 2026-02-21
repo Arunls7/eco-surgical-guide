@@ -70,8 +70,9 @@ const Materials = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-display font-bold mb-2">
-        Materials <span className="text-primary">Database</span>
+      <h1 className="text-3xl md:text-4xl font-display title-hero mb-2">
+        <span className="text-[#111827]">Materials</span>{" "}
+        <span className="text-gradient-primary">Database</span>
       </h1>
       <p className="text-muted-foreground mb-8 font-body">
         {materialsData.length} surgical materials analyzed and certified.
