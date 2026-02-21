@@ -1,8 +1,28 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import SlotMachineSelector from "@/components/SlotMachineSelector";
 import { ArrowRight, Leaf, Search, Cpu, MessageSquare, Check, Zap, Shield, FileCheck } from "lucide-react";
-import heroImg from "@/assets/hero-surgery.jpg";
+
+import heroMedicine from "@/assets/hero-surgery.jpg";
+import heroF1 from "@/assets/hero-f1.jpg";
+import heroAerospace from "@/assets/hero-aerospace.jpg";
+import heroOrthopedics from "@/assets/hero-orthopedics.jpg";
+import heroCardiology from "@/assets/hero-cardiology.jpg";
+import heroDentistry from "@/assets/hero-dentistry.jpg";
+import heroAutomotive from "@/assets/hero-automotive.jpg";
+import heroAviation from "@/assets/hero-aviation.jpg";
+
+const heroImages: Record<string, string> = {
+  Medicine: heroMedicine,
+  "Formula 1": heroF1,
+  Aerospace: heroAerospace,
+  Orthopedics: heroOrthopedics,
+  Cardiology: heroCardiology,
+  Dentistry: heroDentistry,
+  Automotive: heroAutomotive,
+  Aviation: heroAviation,
+};
 
 const statCards = [
   { value: 25, suffix: "+", label: "Materials", sublabel: "analyzed & certified" },
@@ -11,56 +31,49 @@ const statCards = [
 ];
 
 const steps = [
-  {
-    icon: Search,
-    title: "Explore",
-    desc: "Browse our database of sustainable surgical materials with their carbon footprints.",
-  },
-  {
-    icon: Cpu,
-    title: "Compare",
-    desc: "Our AI analyzes and compares alternatives for each type of surgical procedure.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Decide",
-    desc: "Receive personalized recommendations and reduce your environmental impact.",
-  },
+  { icon: Search, title: "Explore", desc: "Browse our database of sustainable surgical materials with their carbon footprints." },
+  { icon: Cpu, title: "Compare", desc: "Our AI analyzes and compares alternatives for each type of surgical procedure." },
+  { icon: MessageSquare, title: "Decide", desc: "Receive personalized recommendations and reduce your environmental impact." },
 ];
 
 const Landing = () => {
+  const [currentField, setCurrentField] = useState("Medicine");
+  const currentHero = heroImages[currentField] || heroMedicine;
+
   return (
     <div className="min-h-screen bg-background">
       {/* ═══════════ HERO — Full-screen cinematic ═══════════ */}
       <section className="relative h-[100vh] min-h-[600px] overflow-hidden flex items-end justify-center">
-        {/* Background image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImg})` }}
-        />
-        {/* Dark overlay gradient */}
+        {/* Background images — all preloaded, crossfade via opacity */}
+        {Object.entries(heroImages).map(([field, src]) => (
+          <div
+            key={field}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-in-out"
+            style={{
+              backgroundImage: `url(${src})`,
+              opacity: field === currentField ? 1 : 0,
+            }}
+          />
+        ))}
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50" />
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-5xl mx-auto px-6 pb-16 text-center">
-          {/* Small pill */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-xs font-medium px-4 py-1.5 rounded-full mb-6">
             <Leaf className="w-3.5 h-3.5" />
             Sustainable Surgery Initiative
           </div>
 
-          {/* Main title */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-white leading-[0.9] mb-6 tracking-tight">
             Surg<span className="text-primary">Green</span>
           </h1>
 
-          {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/70 font-body max-w-xl mx-auto mb-8">
             <span className="text-white font-semibold">300M</span> surgeries/year.{" "}
             <span className="text-white font-semibold">0</span> ask about carbon.
           </p>
 
-          {/* CTA buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <Link
               to="/dashboard"
@@ -76,7 +89,6 @@ const Landing = () => {
             </Link>
           </div>
 
-          {/* Stat cards row */}
           <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
             {statCards.map((stat, i) => (
               <div
@@ -94,12 +106,11 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* Bottom fade into next section */}
         <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       {/* ═══════════ SLOT MACHINE ═══════════ */}
-      <SlotMachineSelector />
+      <SlotMachineSelector onFieldChange={setCurrentField} />
 
       {/* ═══════════ HOW IT WORKS ═══════════ */}
       <section className="bg-muted/50 py-20">
@@ -140,7 +151,6 @@ const Landing = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto items-center">
-            {/* Left: Feature tags */}
             <div className="flex flex-col items-start relative pl-4">
               <div className="absolute left-[22px] top-5 bottom-5 w-px border-l-2 border-dashed border-border" />
               {[
@@ -151,25 +161,16 @@ const Landing = () => {
                 { text: "Real-time recommendations", active: false },
               ].map((tag) => (
                 <div key={tag.text} className="flex items-center gap-3 py-3 relative z-10">
-                  <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                      tag.active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                    }`}
-                  >
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${tag.active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
                     <Check className="w-3.5 h-3.5" />
                   </div>
-                  <span
-                    className={`text-sm font-sans px-3 py-1.5 rounded-full border ${
-                      tag.active ? "border-primary text-primary font-bold bg-accent" : "border-border text-muted-foreground bg-card"
-                    }`}
-                  >
+                  <span className={`text-sm font-sans px-3 py-1.5 rounded-full border ${tag.active ? "border-primary text-primary font-bold bg-accent" : "border-border text-muted-foreground bg-card"}`}>
                     {tag.text}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Center: Logo circle */}
             <div className="flex flex-col items-center gap-4">
               <div className="w-[180px] h-[180px] rounded-full bg-card flex items-center justify-center shadow-card border-[3px] border-primary">
                 <Leaf className="w-16 h-16 text-primary" />
@@ -182,7 +183,6 @@ const Landing = () => {
               </span>
             </div>
 
-            {/* Right: Feature blocks */}
             <div className="space-y-6">
               {[
                 { icon: Zap, title: "Carbon Neutrality", desc: "Every material recommendation includes full lifecycle CO2 data sourced from ISO 14040 certified studies." },
@@ -210,7 +210,7 @@ const Landing = () => {
           <Leaf className="w-4 h-4 text-secondary" />
           <span className="font-display font-semibold text-foreground">SurgGreen</span>
         </div>
-        HackEurope Paris 2025 · CentraleSupélec · Sustainability Track
+        HackEurope Paris 2025 · CentraleSupelec · Sustainability Track
       </footer>
     </div>
   );
