@@ -139,7 +139,7 @@ const chatMessages = [
 
 export const fieldNames = fields;
 
-export default function SlotMachineSelector({ onFieldChange }: { onFieldChange?: (field: string) => void }) {
+export default function SlotMachineSelector({ onFieldChange, variant = "default" }: { onFieldChange?: (field: string) => void; variant?: "default" | "hero" }) {
   const navigate = useNavigate();
   const [fieldIndex, setFieldIndex] = useState(0);
   const [compIndex, setCompIndex] = useState(0);
@@ -180,15 +180,21 @@ export default function SlotMachineSelector({ onFieldChange }: { onFieldChange?:
     }, 200);
   };
 
+  const isHero = variant === "hero";
+
   return (
-    <section className="py-14 relative overflow-hidden">
+    <section className={`py-14 relative overflow-hidden ${isHero ? "" : ""}`}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Title */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-display title-hero mb-3">
-            <span className="text-gradient-primary">Find your green material</span>
+          <h2 className={`text-3xl md:text-4xl font-display title-hero mb-3 ${isHero ? "text-white drop-shadow-lg" : ""}`}>
+            {isHero ? (
+              <span className="text-white">Find your <span className="text-primary">green</span> material</span>
+            ) : (
+              <span className="text-gradient-primary">Find your green material</span>
+            )}
           </h2>
-          <p className="text-muted-foreground text-sm font-body max-w-md mx-auto">
+          <p className={`text-sm font-body max-w-md mx-auto ${isHero ? "text-white/70" : "text-muted-foreground"}`}>
             Spin the drums, pick your combination, and let our AI find the best sustainable match.
           </p>
         </div>
