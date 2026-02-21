@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Leaf, Car } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import medicalBg from "@/assets/medical-bg.jpg";
 
 const materials = [
   { name: "Titanium Grade 5", co2: 4.2, level: "medium" as const },
@@ -56,9 +57,13 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
+    <div
+      className="h-[calc(100vh-4rem)] flex flex-col relative bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${medicalBg})` }}
+    >
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
       {/* Top bar */}
-      <div className="bg-card border-b border-border px-6 py-3 flex items-center gap-8">
+      <div className="relative z-10 bg-card/60 backdrop-blur-md border-b border-border/50 px-6 py-3 flex items-center gap-8">
         <div className="flex items-center gap-2 text-sm">
           <Leaf className="w-4 h-4 text-secondary" />
           <span className="text-muted-foreground">CO₂ saved:</span>
@@ -75,9 +80,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative z-10">
         {/* Sidebar */}
-        <aside className="w-1/4 min-w-[260px] border-r border-border bg-card flex flex-col">
+        <aside className="w-1/4 min-w-[260px] border-r border-border/50 bg-card/60 backdrop-blur-md flex flex-col">
           <div className="p-4 border-b border-border">
             <h3 className="font-display font-semibold text-sm mb-3">Filter by CO₂</h3>
             <div className="flex flex-wrap gap-2">
@@ -160,10 +165,10 @@ const Dashboard = () => {
           {/* Chat input redesign */}
           <div className="px-6 pb-6">
             <div
-              className="max-w-3xl mx-auto rounded-[20px] p-5 px-6"
+              className="max-w-3xl mx-auto rounded-[20px] p-5 px-6 backdrop-blur-md"
               style={{
-                background: '#111827',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.18)',
               }}
             >
               <div className="flex items-center gap-3">
@@ -172,7 +177,7 @@ const Dashboard = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Describe your surgical need..."
-                  className="flex-1 bg-transparent border-none outline-none text-white placeholder-[#6b7280] text-base"
+                  className="flex-1 bg-transparent border-none outline-none text-foreground placeholder-muted-foreground text-base"
                 />
                 <button
                   onClick={() => handleSend()}
