@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Recycle, Leaf, ShieldCheck } from "lucide-react";
+import MaterialModel from "@/components/MaterialModel";
 
 type Category = "all" | "low" | "biodegradable" | "metals" | "polymers" | "ceramics";
 
@@ -101,7 +102,9 @@ const Materials = () => {
             className="bg-card rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all animate-fade-in"
             style={{ animationDelay: `${i * 30}ms` }}
           >
-            <div className="flex items-start justify-between mb-3">
+            <MaterialModel category={mat.category} co2Level={mat.level} strength={mat.strength} />
+
+            <div className="flex items-start justify-between mb-3 mt-3">
               <h3 className="font-display font-semibold text-sm">{mat.name}</h3>
               <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${co2Badge[mat.level]}`}>
                 {mat.co2} kg
