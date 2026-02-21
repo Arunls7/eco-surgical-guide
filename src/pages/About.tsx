@@ -2,12 +2,13 @@ import { Leaf, Github } from "lucide-react";
 import jeremieImg from "@/assets/jeremie.jpg";
 import adelImg from "@/assets/adel.jpg";
 import arunImg from "@/assets/arun.jpg";
+import gaiaImg from "@/assets/gaia.png";
 
 const team = [
   { name: "Jérimie Konda", role: "Developer", image: jeremieImg },
   { name: "Arun Kuganesan", role: "Developer", image: arunImg },
   { name: "Adel Noui", role: "Developer", image: adelImg },
-  { name: "Gaïa Mezaïb", role: "Developer", image: null },
+  { name: "Gaïa Mezaïb", role: "Developer", image: gaiaImg },
 ];
 
 const About = () => {
