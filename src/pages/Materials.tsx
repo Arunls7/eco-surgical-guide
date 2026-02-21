@@ -1,4 +1,5 @@
 import { useState } from "react";
+import medicalPatternBg from "@/assets/medical-pattern-bg.jpg";
 import { Recycle, Leaf, ShieldCheck } from "lucide-react";
 import MaterialModel from "@/components/MaterialModel";
 
@@ -69,6 +70,10 @@ const Materials = () => {
   });
 
   return (
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
+      style={{ backgroundImage: `url(${medicalPatternBg})` }}
+    >
     <div className="max-w-7xl mx-auto px-6 py-10">
       <h1 className="text-3xl md:text-4xl font-display title-hero mb-2">
         <span className="text-[#111827]">Materials</span>{" "}
@@ -144,6 +149,7 @@ const Materials = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
