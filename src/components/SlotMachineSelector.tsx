@@ -1,67 +1,64 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { ChevronUp, ChevronDown, Bot, Send, Stethoscope, Car, Plane, Bone, Heart, Smile, Truck, Navigation } from "lucide-react";
+import { ChevronUp, ChevronDown, Bot, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const fieldData: Record<string, { components: string[]; priorities: string[]; icon: typeof Stethoscope }> = {
+const fieldData: Record<string, { components: string[]; priorities: string[]; color: string }> = {
   Medicine: {
     components: ["Implant", "Suture", "Bone Plate", "Joint Prosthesis", "Surgical Mesh", "Stent", "Bone Cement"],
     priorities: ["Minimum CO2", "Biodegradable", "Biocompatible", "ISO Certified", "Absorbable"],
-    icon: Stethoscope,
+    color: "161 93% 30%",
   },
   "Formula 1": {
     components: ["Chassis Part", "Brake Disc", "Engine Mount", "Suspension Arm", "Roll Hoop"],
     priorities: ["Maximum Strength", "Lightweight", "Heat Resistant", "Recyclable", "Cost Efficient"],
-    icon: Car,
+    color: "0 84% 50%",
   },
   Aerospace: {
     components: ["Fuselage Panel", "Turbine Blade", "Landing Gear", "Heat Shield", "Structural Frame"],
     priorities: ["Lightweight", "Maximum Strength", "Heat Resistant", "Fatigue Resistant", "Recyclable"],
-    icon: Navigation,
+    color: "220 70% 50%",
   },
   Orthopedics: {
     components: ["Hip Prosthesis", "Knee Implant", "Spinal Cage", "Bone Screw", "Fixation Plate"],
     priorities: ["Biocompatible", "Osseointegration", "Minimum CO2", "ISO Certified", "Long Lifespan"],
-    icon: Bone,
+    color: "280 60% 50%",
   },
   Cardiology: {
     components: ["Heart Valve", "Stent", "Pacemaker Casing", "Vascular Graft", "Catheter"],
     priorities: ["Biocompatible", "Corrosion Resistant", "Flexible", "Minimum CO2", "Absorbable"],
-    icon: Heart,
+    color: "340 75% 55%",
   },
   Dentistry: {
     components: ["Crown", "Implant Post", "Filling", "Bridge", "Veneer"],
     priorities: ["Aesthetic", "Biocompatible", "Durable", "Minimum CO2", "ISO Certified"],
-    icon: Smile,
+    color: "45 90% 48%",
   },
   Automotive: {
     components: ["Body Panel", "Brake Disc", "Engine Block", "Exhaust", "Gear"],
     priorities: ["Lightweight", "Recyclable", "Cost Efficient", "Heat Resistant", "Durable"],
-    icon: Truck,
+    color: "25 85% 50%",
   },
   Aviation: {
     components: ["Wing Spar", "Cabin Panel", "Engine Nacelle", "Floor Beam", "Seat Frame"],
     priorities: ["Lightweight", "Maximum Strength", "Fatigue Resistant", "Recyclable", "Flame Retardant"],
-    icon: Plane,
+    color: "200 75% 45%",
   },
 };
 
 const fields = Object.keys(fieldData);
-
-const CARD_HEIGHT = 100;
-const GAP = 12;
 
 function SlotColumn({
   label,
   items,
   activeIndex,
   onChangeIndex,
-  isActive,
+  accentColor,
 }: {
   label: string;
   items: string[];
   activeIndex: number;
   onChangeIndex: (i: number) => void;
-  isActive?: boolean;
+  accentColor: string;
 }) {
   const scrollTo = useCallback(
     (index: number) => {
@@ -70,127 +67,66 @@ function SlotColumn({
     [items.length, onChangeIndex]
   );
 
-  // Build visible: prev, current, next
-  const getSlots = () => {
-    const result: { text: string; position: "prev" | "center" | "next"; idx: number }[] = [];
-    const prev = activeIndex - 1;
-    const next = activeIndex + 1;
-    if (prev >= 0) result.push({ text: items[prev], position: "prev", idx: prev });
-    else result.push({ text: "", position: "prev", idx: -1 });
-    result.push({ text: items[activeIndex], position: "center", idx: activeIndex });
-    if (next < items.length) result.push({ text: items[next], position: "next", idx: next });
-    else result.push({ text: "", position: "next", idx: -1 });
-    return result;
-  };
+  const prev = activeIndex - 1;
+  const next = activeIndex + 1;
 
   return (
     <div className="flex flex-col items-center">
       {/* Label */}
-      <span
-        className={`text-xs font-bold uppercase tracking-[0.18em] mb-4 px-3 py-1 rounded ${
-          isActive
-            ? "bg-primary/10 text-primary border border-primary/30"
-            : "text-muted-foreground"
-        }`}
-      >
+      <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-3">
         {label}
       </span>
 
       {/* Up arrow */}
       <button
         onClick={() => scrollTo(activeIndex - 1)}
-        className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center hover:bg-accent hover:border-primary/50 transition-all disabled:opacity-20 mb-3 group"
+        className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center hover:border-primary/40 transition-all disabled:opacity-20 mb-2"
         disabled={activeIndex === 0}
-        aria-label="Previous"
       >
-        <ChevronUp className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+        <ChevronUp className="w-4 h-4 text-muted-foreground" />
       </button>
 
       {/* Slot window */}
-      <div
-        className="relative w-full rounded-2xl overflow-hidden"
-        style={{
-          height: CARD_HEIGHT * 3 + GAP * 2 + 32,
-          background: "linear-gradient(180deg, hsl(210 40% 96% / 0.7) 0%, hsl(166 50% 96% / 0.5) 100%)",
-          boxShadow: "inset 0 4px 30px rgba(0,0,0,0.04)",
-          perspective: "800px",
-        }}
-      >
-        {/* Top fade */}
-        <div
-          className="absolute inset-x-0 top-0 z-30 pointer-events-none"
-          style={{
-            height: 40,
-            background: "linear-gradient(to bottom, hsl(210 40% 96% / 0.9), transparent)",
-          }}
-        />
-        {/* Bottom fade */}
-        <div
-          className="absolute inset-x-0 bottom-0 z-30 pointer-events-none"
-          style={{
-            height: 40,
-            background: "linear-gradient(to top, hsl(166 50% 96% / 0.9), transparent)",
-          }}
-        />
+      <div className="w-full flex flex-col gap-2">
+        {/* Previous item */}
+        <div className="h-14 rounded-xl bg-muted/30 flex items-center justify-center transition-all duration-400">
+          <span className="text-xs text-muted-foreground/50 font-medium">
+            {prev >= 0 ? items[prev] : ""}
+          </span>
+        </div>
 
-        {/* Cards container with 3D */}
+        {/* Active item */}
         <div
-          className="flex flex-col items-center justify-center h-full px-3 py-4"
+          className="h-20 rounded-xl flex items-center justify-center transition-all duration-500 relative"
           style={{
-            transformStyle: "preserve-3d",
+            background: `linear-gradient(135deg, hsl(${accentColor} / 0.08) 0%, hsl(${accentColor} / 0.03) 100%)`,
+            border: `2px solid hsl(${accentColor})`,
+            boxShadow: `0 0 20px hsl(${accentColor} / 0.12), 0 4px 12px rgba(0,0,0,0.04)`,
           }}
         >
-          {getSlots().map((slot) => {
-            const isCenter = slot.position === "center";
-            const isPrev = slot.position === "prev";
-            const isNext = slot.position === "next";
+          <span
+            className="text-sm font-bold transition-all duration-500"
+            style={{ color: `hsl(${accentColor})` }}
+          >
+            {items[activeIndex]}
+          </span>
+        </div>
 
-            const rotateX = isPrev ? 25 : isNext ? -25 : 0;
-            const translateZ = isCenter ? 30 : -10;
-            const scale = isCenter ? 1 : 0.88;
-            const opacity = isCenter ? 1 : slot.text ? 0.45 : 0;
-
-            return (
-              <div
-                key={`${slot.position}-${slot.idx}`}
-                className="w-full flex items-center justify-center transition-all duration-500 ease-out"
-                style={{
-                  height: CARD_HEIGHT,
-                  marginBottom: slot.position !== "next" ? GAP : 0,
-                  transform: `perspective(600px) rotateX(${rotateX}deg) translateZ(${translateZ}px) scale(${scale})`,
-                  opacity,
-                  transformOrigin: isPrev ? "bottom center" : isNext ? "top center" : "center",
-                }}
-              >
-                <div
-                  className={`w-full h-full rounded-xl flex items-center justify-center transition-all duration-500 ${
-                    isCenter
-                      ? "bg-card border-2 border-primary shadow-[0_0_24px_hsl(var(--primary)/0.15),0_4px_16px_rgba(0,0,0,0.06)]"
-                      : "bg-card/60 border border-border/50"
-                  }`}
-                >
-                  <span
-                    className={`text-sm transition-all duration-500 ${
-                      isCenter ? "font-bold text-primary text-base" : "text-muted-foreground font-medium"
-                    }`}
-                  >
-                    {slot.text}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+        {/* Next item */}
+        <div className="h-14 rounded-xl bg-muted/30 flex items-center justify-center transition-all duration-400">
+          <span className="text-xs text-muted-foreground/50 font-medium">
+            {next < items.length ? items[next] : ""}
+          </span>
         </div>
       </div>
 
       {/* Down arrow */}
       <button
         onClick={() => scrollTo(activeIndex + 1)}
-        className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center hover:bg-accent hover:border-primary/50 transition-all disabled:opacity-20 mt-3 group"
+        className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center hover:border-primary/40 transition-all disabled:opacity-20 mt-2"
         disabled={activeIndex === items.length - 1}
-        aria-label="Next"
       >
-        <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+        <ChevronDown className="w-4 h-4 text-muted-foreground" />
       </button>
     </div>
   );
@@ -209,26 +145,14 @@ export default function SlotMachineSelector() {
   const [messages, setMessages] = useState(chatMessages);
   const [typing, setTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const [activeCol, setActiveCol] = useState<number | null>(null);
 
   const currentField = fields[fieldIndex];
-  const { components, priorities } = fieldData[currentField];
+  const { components, priorities, color } = fieldData[currentField];
 
   const handleFieldChange = useCallback((i: number) => {
     setFieldIndex(i);
     setCompIndex(0);
     setPrioIndex(0);
-    setActiveCol(0);
-  }, []);
-
-  const handleCompChange = useCallback((i: number) => {
-    setCompIndex(i);
-    setActiveCol(1);
-  }, []);
-
-  const handlePrioChange = useCallback((i: number) => {
-    setPrioIndex(i);
-    setActiveCol(2);
   }, []);
 
   const selectedComponent = components[compIndex] || components[0];
@@ -254,64 +178,64 @@ export default function SlotMachineSelector() {
   };
 
   return (
-    <section className="py-16 bg-background relative overflow-hidden">
-      {/* Decorative */}
-      <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent)" }} />
-      <div className="absolute -bottom-20 -right-20 w-[500px] h-[500px] rounded-full opacity-[0.02] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(161 93% 30%), transparent)" }} />
-
+    <section className="py-14 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-display title-hero text-center mb-3">
-          <span className="text-gradient-primary">Find your green material</span>
-        </h2>
-        <p className="text-center text-muted-foreground text-sm mb-12 font-body max-w-lg mx-auto">
-          Spin the drums, pick your combination, and let our AI find the best sustainable match.
-        </p>
+        {/* Title */}
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-display title-hero mb-3">
+            <span className="text-gradient-primary">Find your green material</span>
+          </h2>
+          <p className="text-muted-foreground text-sm font-body max-w-md mx-auto">
+            Spin the drums, pick your combination, and let our AI find the best sustainable match.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 max-w-6xl mx-auto items-start">
-          {/* Slot machine frame */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 max-w-5xl mx-auto items-start">
+          {/* Slot machine */}
           <div
-            className="rounded-3xl p-5 md:p-7"
+            className="rounded-2xl p-6 border border-border/50"
             style={{
-              background: "linear-gradient(145deg, hsl(var(--card)) 0%, hsl(0 0% 95%) 100%)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)",
+              background: "linear-gradient(160deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.05)",
             }}
           >
-            <div className="grid grid-cols-3 gap-3 md:gap-5">
-              <SlotColumn label="Field" items={fields} activeIndex={fieldIndex} onChangeIndex={handleFieldChange} isActive={activeCol === 0} />
-              <SlotColumn label="Component" items={components} activeIndex={compIndex} onChangeIndex={handleCompChange} isActive={activeCol === 1} />
-              <SlotColumn label="Priority" items={priorities} activeIndex={prioIndex} onChangeIndex={handlePrioChange} isActive={activeCol === 2} />
+            <div className="grid grid-cols-3 gap-4">
+              <SlotColumn label="Field" items={fields} activeIndex={fieldIndex} onChangeIndex={handleFieldChange} accentColor={color} />
+              <SlotColumn label="Component" items={components} activeIndex={compIndex} onChangeIndex={setCompIndex} accentColor={color} />
+              <SlotColumn label="Priority" items={priorities} activeIndex={prioIndex} onChangeIndex={setPrioIndex} accentColor={color} />
             </div>
           </div>
 
-          {/* Chat card */}
+          {/* Chat */}
           <div
             className="bg-card rounded-2xl border border-border flex flex-col overflow-hidden"
             style={{
-              boxShadow: "0 20px 60px rgba(37,99,235,0.08), 0 2px 8px rgba(0,0,0,0.04)",
-              height: 480,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.05)",
+              minHeight: 380,
+              maxHeight: 420,
             }}
           >
             {/* Header */}
-            <div className="px-5 py-4 border-b border-border flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center relative">
-                <Bot className="w-5 h-5 text-primary" />
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-primary border-2 border-card animate-pulse" />
+            <div className="px-4 py-3 border-b border-border flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-accent flex items-center justify-center relative">
+                <Bot className="w-4 h-4 text-primary" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary border-2 border-card animate-pulse" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-sm">SurgGreen AI</h3>
+                <h3 className="font-display font-bold text-sm leading-tight">SurgGreen AI</h3>
                 <span className="text-[10px] text-muted-foreground">Online</span>
               </div>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${
+                    className={`max-w-[85%] rounded-2xl px-3 py-1.5 text-xs leading-relaxed ${
                       msg.from === "user"
-                        ? "bg-primary text-primary-foreground rounded-br-md"
-                        : "bg-accent text-accent-foreground rounded-bl-md"
+                        ? "bg-primary text-primary-foreground rounded-br-sm"
+                        : "bg-accent text-accent-foreground rounded-bl-sm"
                     }`}
                   >
                     {msg.text}
@@ -320,7 +244,7 @@ export default function SlotMachineSelector() {
               ))}
               {typing && (
                 <div className="flex justify-start">
-                  <div className="bg-accent rounded-2xl rounded-bl-md px-4 py-2.5 flex gap-1">
+                  <div className="bg-accent rounded-2xl rounded-bl-sm px-3 py-2 flex gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce" style={{ animationDelay: "0ms" }} />
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce" style={{ animationDelay: "150ms" }} />
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -331,7 +255,7 @@ export default function SlotMachineSelector() {
             </div>
 
             {/* Footer */}
-            <div className="px-4 py-3 border-t border-border space-y-2">
+            <div className="px-3 py-3 border-t border-border space-y-1.5">
               <div className="text-[10px] text-muted-foreground text-center truncate">{selectionText}</div>
               <button
                 onClick={handleAnalyze}
