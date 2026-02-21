@@ -4,26 +4,26 @@ import { ArrowRight, Leaf, BarChart3, ShieldCheck, Search, Cpu, MessageSquare } 
 import medicalBg from "@/assets/medical-bg.jpg";
 
 const statCards = [
-  { value: 25, suffix: "+", label: "Matériaux", sublabel: "analysés et certifiés" },
-  { value: 37, suffix: "%", prefix: "−", label: "CO₂ possible", sublabel: "réduction moyenne" },
-  { value: 100, suffix: "%", label: "ISO Certifiés", sublabel: "normes respectées" },
+  { value: 25, suffix: "+", label: "Materials", sublabel: "analyzed & certified" },
+  { value: 37, suffix: "%", prefix: "−", label: "CO₂ reduction", sublabel: "average potential" },
+  { value: 100, suffix: "%", label: "ISO Certified", sublabel: "standards met" },
 ];
 
 const steps = [
   {
     icon: Search,
-    title: "Explorez",
-    desc: "Parcourez notre base de données de matériaux chirurgicaux durables avec leurs empreintes carbone.",
+    title: "Explore",
+    desc: "Browse our database of sustainable surgical materials with their carbon footprints.",
   },
   {
     icon: Cpu,
-    title: "Comparez",
-    desc: "Notre IA analyse et compare les alternatives pour chaque type d'intervention chirurgicale.",
+    title: "Compare",
+    desc: "Our AI analyzes and compares alternatives for each type of surgical procedure.",
   },
   {
     icon: MessageSquare,
-    title: "Décidez",
-    desc: "Recevez des recommandations personnalisées et réduisez votre impact environnemental.",
+    title: "Decide",
+    desc: "Receive personalized recommendations and reduce your environmental impact.",
   },
 ];
 
@@ -38,33 +38,33 @@ const Landing = () => {
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-b-2xl" />
         <div className="max-w-3xl mx-auto text-center animate-fade-in relative z-10">
           <h1 className="text-5xl md:text-6xl font-display font-bold leading-tight mb-6">
-            La chirurgie{" "}
-            <span className="text-primary">durable</span>
+            Sustainable{" "}
+            <span className="text-primary">Surgery</span>
           </h1>
           <p className="text-lg text-muted-foreground mb-4 font-body">
             <span className="font-semibold text-foreground">300M</span> surgeries/year · <span className="font-semibold text-foreground">0</span> ask about carbon.
           </p>
           <p className="text-muted-foreground mb-10 max-w-xl mx-auto font-body">
-            SurgGreen aide les chirurgiens à choisir des matériaux à faible empreinte carbone, sans compromettre la qualité des soins.
+            SurgGreen helps surgeons choose low carbon footprint materials without compromising quality of care.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/dashboard"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3 rounded-full font-medium text-sm hover:shadow-card-hover transition-all hover:scale-105"
             >
-              Accéder au Dashboard <ArrowRight className="w-4 h-4" />
+              Go to Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/materiaux"
               className="inline-flex items-center gap-2 border-2 border-primary text-primary px-7 py-3 rounded-full font-medium text-sm hover:bg-accent transition-all hover:scale-105"
             >
-              Explorer les matériaux
+              Explore Materials
             </Link>
           </div>
         </div>
 
         {/* Stat cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 max-w-4xl mx-auto relative z-10">
           {statCards.map((stat, i) => (
             <div
               key={stat.label}
@@ -85,7 +85,7 @@ const Landing = () => {
       <section className="bg-muted/50 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl font-display font-bold text-center mb-12">
-            Comment ça <span className="text-primary">marche</span>
+            How it <span className="text-primary">works</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {steps.map((step, i) => (

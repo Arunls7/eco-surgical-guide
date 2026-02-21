@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { label: "Accueil", path: "/" },
+  { label: "Home", path: "/" },
   { label: "Dashboard", path: "/dashboard" },
-  { label: "Matériaux", path: "/materiaux" },
-  { label: "À propos", path: "/a-propos" },
+  { label: "Materials", path: "/materiaux" },
+  { label: "About", path: "/a-propos" },
 ];
 
 const Navbar = () => {
