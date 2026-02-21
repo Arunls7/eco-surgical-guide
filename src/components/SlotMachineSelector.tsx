@@ -137,7 +137,9 @@ const chatMessages = [
   { from: "bot", text: "Select a field, component, and priority to get started." },
 ];
 
-export default function SlotMachineSelector() {
+export const fieldNames = fields;
+
+export default function SlotMachineSelector({ onFieldChange }: { onFieldChange?: (field: string) => void }) {
   const navigate = useNavigate();
   const [fieldIndex, setFieldIndex] = useState(0);
   const [compIndex, setCompIndex] = useState(0);
@@ -153,7 +155,8 @@ export default function SlotMachineSelector() {
     setFieldIndex(i);
     setCompIndex(0);
     setPrioIndex(0);
-  }, []);
+    onFieldChange?.(fields[i]);
+  }, [onFieldChange]);
 
   const selectedComponent = components[compIndex] || components[0];
   const selectedPriority = priorities[prioIndex] || priorities[0];
