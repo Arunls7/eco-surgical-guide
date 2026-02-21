@@ -82,6 +82,9 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Slot Machine Selector */}
+      <SlotMachineSelector />
+
       {/* How it works */}
       <section className="bg-muted/50 py-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -204,8 +207,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Slot Machine Selector */}
-      <SlotMachineSelector />
+
 
       {/* Footer */}
       <footer className="py-10 text-center text-sm text-muted-foreground border-t border-border">
