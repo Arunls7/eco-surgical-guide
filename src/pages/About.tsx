@@ -1,26 +1,26 @@
 import { Leaf, Github } from "lucide-react";
 
 const team = [
-  { name: "Alice Dupont", role: "Lead Développeuse", initials: "AD" },
+  { name: "Alice Dupont", role: "Lead Developer", initials: "AD" },
   { name: "Mehdi Ben Salah", role: "Data Scientist", initials: "MB" },
   { name: "Clara Zhang", role: "UX Designer", initials: "CZ" },
-  { name: "Thomas Lefèvre", role: "Ingénieur Biomédical", initials: "TL" },
+  { name: "Thomas Lefèvre", role: "Biomedical Engineer", initials: "TL" },
 ];
 
 const About = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
       <h1 className="text-4xl font-display font-bold text-center mb-4">
-        À <span className="text-primary">propos</span>
+        About <span className="text-primary">Us</span>
       </h1>
       <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-16 font-body">
-        SurgGreen est une plateforme qui aide les professionnels de santé à réduire l'empreinte carbone
-        de leurs interventions chirurgicales en proposant des alternatives durables certifiées.
+        SurgGreen is a platform that helps healthcare professionals reduce the carbon footprint
+        of their surgical procedures by offering certified sustainable alternatives.
       </p>
 
       {/* Team */}
       <h2 className="text-2xl font-display font-semibold text-center mb-8">
-        Notre <span className="text-primary">équipe</span>
+        Our <span className="text-primary">Team</span>
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
         {team.map((member, i) => (
@@ -41,13 +41,13 @@ const About = () => {
       {/* Mission */}
       <div className="bg-card rounded-2xl p-8 shadow-card mb-12">
         <h2 className="text-xl font-display font-semibold mb-4">
-          Notre <span className="text-primary">mission</span>
+          Our <span className="text-primary">Mission</span>
         </h2>
         <p className="text-muted-foreground text-sm leading-relaxed font-body">
-          Chaque année, plus de 300 millions d'interventions chirurgicales sont réalisées dans le monde.
-          L'impact environnemental de ces procédures — des matériaux utilisés aux déchets générés — est rarement questionné.
-          SurgGreen vise à changer cela en fournissant aux chirurgiens les données et outils nécessaires pour faire des choix
-          éclairés et durables, sans jamais compromettre la sécurité des patients.
+          Every year, over 300 million surgical procedures are performed worldwide.
+          The environmental impact of these procedures — from the materials used to the waste generated — is rarely questioned.
+          SurgGreen aims to change that by providing surgeons with the data and tools needed to make
+          informed, sustainable choices without ever compromising patient safety.
         </p>
       </div>
 

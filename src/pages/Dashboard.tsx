@@ -3,15 +3,15 @@ import { Send, Leaf, Car } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
 
 const materials = [
-  { name: "Titane Grade 5", co2: 4.2, level: "medium" as const },
-  { name: "Acier Inox 316L", co2: 2.1, level: "low" as const },
+  { name: "Titanium Grade 5", co2: 4.2, level: "medium" as const },
+  { name: "Stainless Steel 316L", co2: 2.1, level: "low" as const },
   { name: "PEEK", co2: 6.8, level: "high" as const },
-  { name: "Polyéthylène UHMW", co2: 1.5, level: "low" as const },
+  { name: "UHMW Polyethylene", co2: 1.5, level: "low" as const },
   { name: "Cobalt-Chrome", co2: 5.3, level: "high" as const },
-  { name: "Zircone", co2: 3.1, level: "medium" as const },
+  { name: "Zirconia", co2: 3.1, level: "medium" as const },
   { name: "PMMA", co2: 2.8, level: "medium" as const },
-  { name: "Silicone médical", co2: 1.9, level: "low" as const },
-  { name: "Alumine", co2: 3.5, level: "medium" as const },
+  { name: "Medical Silicone", co2: 1.9, level: "low" as const },
+  { name: "Alumina", co2: 3.5, level: "medium" as const },
   { name: "Hydroxyapatite", co2: 1.2, level: "low" as const },
 ];
 
@@ -22,18 +22,18 @@ const co2Colors = {
 };
 
 const recommendations = [
-  { rank: "🥇", name: "Acier Inox 316L", co2: "2.1 kg", strength: "Haute", iso: "ISO 5832", bio: true },
-  { rank: "🥈", name: "Hydroxyapatite", co2: "1.2 kg", strength: "Moyenne", iso: "ISO 13779", bio: true },
-  { rank: "🥉", name: "Silicone médical", co2: "1.9 kg", strength: "Flexible", iso: "ISO 10993", bio: false },
+  { rank: "🥇", name: "Stainless Steel 316L", co2: "2.1 kg", strength: "High", iso: "ISO 5832", bio: true },
+  { rank: "🥈", name: "Hydroxyapatite", co2: "1.2 kg", strength: "Medium", iso: "ISO 13779", bio: true },
+  { rank: "🥉", name: "Medical Silicone", co2: "1.9 kg", strength: "Flexible", iso: "ISO 10993", bio: false },
 ];
 
 type Message = { role: "user" | "bot"; content: string; recommendations?: typeof recommendations };
 
 const initialMessages: Message[] = [
-  { role: "bot", content: "Bonjour ! Je suis votre assistant SurgGreen. Posez-moi une question sur les matériaux chirurgicaux durables." },
+  { role: "bot", content: "Hello! I'm your SurgGreen assistant. Ask me anything about sustainable surgical materials." },
 ];
 
-const suggestions = ["Quel matériau pour une prothèse de hanche ?", "Comparer titane vs acier", "Matériaux biodégradables"];
+const suggestions = ["Best material for a hip prosthesis?", "Compare titanium vs steel", "Biodegradable materials"];
 
 const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -48,7 +48,7 @@ const Dashboard = () => {
     const userMsg: Message = { role: "user", content: msg };
     const botMsg: Message = {
       role: "bot",
-      content: "Voici mes recommandations basées sur votre demande :",
+      content: "Here are my recommendations based on your request:",
       recommendations,
     };
     setMessages((prev) => [...prev, userMsg, botMsg]);
@@ -61,16 +61,16 @@ const Dashboard = () => {
       <div className="bg-card border-b border-border px-6 py-3 flex items-center gap-8">
         <div className="flex items-center gap-2 text-sm">
           <Leaf className="w-4 h-4 text-secondary" />
-          <span className="text-muted-foreground">CO₂ économisé :</span>
+          <span className="text-muted-foreground">CO₂ saved:</span>
           <span className="font-semibold text-secondary">
             <AnimatedCounter end={142} suffix=" kg" />
           </span>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Car className="w-4 h-4 text-primary" />
-          <span className="text-muted-foreground">Équiv. voitures :</span>
+          <span className="text-muted-foreground">Car equiv.:</span>
           <span className="font-semibold text-primary">
-            <AnimatedCounter end={23} suffix=" trajets" />
+            <AnimatedCounter end={23} suffix=" trips" />
           </span>
         </div>
       </div>
@@ -79,7 +79,7 @@ const Dashboard = () => {
         {/* Sidebar */}
         <aside className="w-1/4 min-w-[260px] border-r border-border bg-card flex flex-col">
           <div className="p-4 border-b border-border">
-            <h3 className="font-display font-semibold text-sm mb-3">Filtrer par CO₂</h3>
+            <h3 className="font-display font-semibold text-sm mb-3">Filter by CO₂</h3>
             <div className="flex flex-wrap gap-2">
               {(["all", "low", "medium", "high"] as const).map((f) => (
                 <button
@@ -91,7 +91,7 @@ const Dashboard = () => {
                       : "bg-muted text-muted-foreground hover:bg-accent"
                   }`}
                 >
-                  {f === "all" ? "Tous" : f === "low" ? "🟢 Bas" : f === "medium" ? "🟡 Moyen" : "🔴 Haut"}
+                  {f === "all" ? "All" : f === "low" ? "🟢 Low" : f === "medium" ? "🟡 Medium" : "🔴 High"}
                 </button>
               ))}
             </div>
@@ -177,7 +177,7 @@ const Dashboard = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Posez votre question..."
+                placeholder="Ask your question..."
                 className="flex-1 bg-background rounded-xl px-4 py-3 text-sm outline-none border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
               />
               <button

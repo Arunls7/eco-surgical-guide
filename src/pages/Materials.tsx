@@ -16,40 +16,40 @@ interface Material {
 }
 
 const materialsData: Material[] = [
-  { name: "Titane Grade 5", co2: 4.2, level: "medium", strength: 90, iso: "ISO 5832-3", biodegradable: false, recyclable: true, category: "metals" },
-  { name: "Acier Inox 316L", co2: 2.1, level: "low", strength: 85, iso: "ISO 5832-1", biodegradable: false, recyclable: true, category: "metals" },
+  { name: "Titanium Grade 5", co2: 4.2, level: "medium", strength: 90, iso: "ISO 5832-3", biodegradable: false, recyclable: true, category: "metals" },
+  { name: "Stainless Steel 316L", co2: 2.1, level: "low", strength: 85, iso: "ISO 5832-1", biodegradable: false, recyclable: true, category: "metals" },
   { name: "PEEK", co2: 6.8, level: "high", strength: 70, iso: "ISO 10993", biodegradable: false, recyclable: false, category: "polymers" },
-  { name: "Polyéthylène UHMW", co2: 1.5, level: "low", strength: 55, iso: "ISO 5834", biodegradable: false, recyclable: true, category: "polymers" },
+  { name: "UHMW Polyethylene", co2: 1.5, level: "low", strength: 55, iso: "ISO 5834", biodegradable: false, recyclable: true, category: "polymers" },
   { name: "Cobalt-Chrome", co2: 5.3, level: "high", strength: 95, iso: "ISO 5832-4", biodegradable: false, recyclable: true, category: "metals" },
-  { name: "Zircone", co2: 3.1, level: "medium", strength: 88, iso: "ISO 13356", biodegradable: false, recyclable: false, category: "ceramics" },
+  { name: "Zirconia", co2: 3.1, level: "medium", strength: 88, iso: "ISO 13356", biodegradable: false, recyclable: false, category: "ceramics" },
   { name: "PMMA", co2: 2.8, level: "medium", strength: 40, iso: "ISO 5833", biodegradable: false, recyclable: true, category: "polymers" },
-  { name: "Silicone médical", co2: 1.9, level: "low", strength: 30, iso: "ISO 10993", biodegradable: false, recyclable: false, category: "polymers" },
-  { name: "Alumine", co2: 3.5, level: "medium", strength: 92, iso: "ISO 6474", biodegradable: false, recyclable: false, category: "ceramics" },
+  { name: "Medical Silicone", co2: 1.9, level: "low", strength: 30, iso: "ISO 10993", biodegradable: false, recyclable: false, category: "polymers" },
+  { name: "Alumina", co2: 3.5, level: "medium", strength: 92, iso: "ISO 6474", biodegradable: false, recyclable: false, category: "ceramics" },
   { name: "Hydroxyapatite", co2: 1.2, level: "low", strength: 35, iso: "ISO 13779", biodegradable: true, recyclable: false, category: "ceramics" },
-  { name: "PLA chirurgical", co2: 0.8, level: "low", strength: 25, iso: "ISO 13781", biodegradable: true, recyclable: false, category: "polymers" },
-  { name: "Magnésium AZ91", co2: 1.8, level: "low", strength: 45, iso: "ISO 5832", biodegradable: true, recyclable: true, category: "metals" },
-  { name: "Tantale", co2: 4.9, level: "medium", strength: 80, iso: "ISO 13782", biodegradable: false, recyclable: true, category: "metals" },
+  { name: "Surgical PLA", co2: 0.8, level: "low", strength: 25, iso: "ISO 13781", biodegradable: true, recyclable: false, category: "polymers" },
+  { name: "Magnesium AZ91", co2: 1.8, level: "low", strength: 45, iso: "ISO 5832", biodegradable: true, recyclable: true, category: "metals" },
+  { name: "Tantalum", co2: 4.9, level: "medium", strength: 80, iso: "ISO 13782", biodegradable: false, recyclable: true, category: "metals" },
   { name: "PGA", co2: 0.9, level: "low", strength: 20, iso: "ISO 13781", biodegradable: true, recyclable: false, category: "polymers" },
   { name: "Niobium", co2: 3.8, level: "medium", strength: 65, iso: "ISO 5832", biodegradable: false, recyclable: true, category: "metals" },
-  { name: "Bioverre 45S5", co2: 2.5, level: "low", strength: 42, iso: "ISO 10993", biodegradable: true, recyclable: false, category: "ceramics" },
+  { name: "Bioglass 45S5", co2: 2.5, level: "low", strength: 42, iso: "ISO 10993", biodegradable: true, recyclable: false, category: "ceramics" },
   { name: "ePTFE", co2: 5.1, level: "high", strength: 35, iso: "ISO 7198", biodegradable: false, recyclable: false, category: "polymers" },
-  { name: "Alliage NiTi", co2: 4.5, level: "medium", strength: 75, iso: "ISO 15841", biodegradable: false, recyclable: true, category: "metals" },
+  { name: "NiTi Alloy", co2: 4.5, level: "medium", strength: 75, iso: "ISO 15841", biodegradable: false, recyclable: true, category: "metals" },
   { name: "PCL", co2: 1.1, level: "low", strength: 18, iso: "ISO 13781", biodegradable: true, recyclable: false, category: "polymers" },
-  { name: "Carbone pyrolytique", co2: 6.2, level: "high", strength: 50, iso: "ISO 5834", biodegradable: false, recyclable: false, category: "ceramics" },
-  { name: "Chitosane", co2: 0.6, level: "low", strength: 15, iso: "ISO 10993", biodegradable: true, recyclable: false, category: "polymers" },
-  { name: "Collagène bovin", co2: 0.4, level: "low", strength: 10, iso: "ISO 22442", biodegradable: true, recyclable: false, category: "polymers" },
+  { name: "Pyrolytic Carbon", co2: 6.2, level: "high", strength: 50, iso: "ISO 5834", biodegradable: false, recyclable: false, category: "ceramics" },
+  { name: "Chitosan", co2: 0.6, level: "low", strength: 15, iso: "ISO 10993", biodegradable: true, recyclable: false, category: "polymers" },
+  { name: "Bovine Collagen", co2: 0.4, level: "low", strength: 10, iso: "ISO 22442", biodegradable: true, recyclable: false, category: "polymers" },
   { name: "TCP β", co2: 1.4, level: "low", strength: 30, iso: "ISO 13175", biodegradable: true, recyclable: false, category: "ceramics" },
-  { name: "Platine-Iridium", co2: 7.5, level: "high", strength: 82, iso: "ISO 5832", biodegradable: false, recyclable: true, category: "metals" },
-  { name: "Polyuréthane", co2: 3.2, level: "medium", strength: 50, iso: "ISO 10993", biodegradable: false, recyclable: true, category: "polymers" },
+  { name: "Platinum-Iridium", co2: 7.5, level: "high", strength: 82, iso: "ISO 5832", biodegradable: false, recyclable: true, category: "metals" },
+  { name: "Polyurethane", co2: 3.2, level: "medium", strength: 50, iso: "ISO 10993", biodegradable: false, recyclable: true, category: "polymers" },
 ];
 
 const filters: { key: Category; label: string }[] = [
-  { key: "all", label: "Tous" },
+  { key: "all", label: "All" },
   { key: "low", label: "Low CO₂" },
-  { key: "biodegradable", label: "Biodégradable" },
-  { key: "metals", label: "Métaux" },
-  { key: "polymers", label: "Polymères" },
-  { key: "ceramics", label: "Céramiques" },
+  { key: "biodegradable", label: "Biodegradable" },
+  { key: "metals", label: "Metals" },
+  { key: "polymers", label: "Polymers" },
+  { key: "ceramics", label: "Ceramics" },
 ];
 
 const co2Badge = {
@@ -71,10 +71,10 @@ const Materials = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-display font-bold mb-2">
-        Base de <span className="text-primary">matériaux</span>
+        Materials <span className="text-primary">Database</span>
       </h1>
       <p className="text-muted-foreground mb-8 font-body">
-        {materialsData.length} matériaux chirurgicaux analysés et certifiés.
+        {materialsData.length} surgical materials analyzed and certified.
       </p>
 
       {/* Filters */}
@@ -114,7 +114,7 @@ const Materials = () => {
             {/* Strength bar */}
             <div className="mb-3">
               <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                <span>Résistance</span>
+                <span>Strength</span>
                 <span>{mat.strength}%</span>
               </div>
               <div className="h-1.5 bg-muted rounded-full overflow-hidden">
@@ -129,7 +129,7 @@ const Materials = () => {
               <span className="text-xs text-muted-foreground">{mat.iso}</span>
               <div className="flex gap-1.5">
                 {mat.biodegradable && (
-                  <span title="Biodégradable" className="w-6 h-6 rounded-full bg-secondary/10 flex items-center justify-center">
+                  <span title="Biodegradable" className="w-6 h-6 rounded-full bg-secondary/10 flex items-center justify-center">
                     <Leaf className="w-3 h-3 text-secondary" />
                   </span>
                 )}
