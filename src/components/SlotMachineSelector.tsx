@@ -2,44 +2,71 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { ChevronUp, ChevronDown, Bot, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const columns = [
-  {
-    label: "Field",
-    items: ["Medicine", "Formula 1", "Aerospace", "Orthopedics", "Cardiology", "Dentistry", "Neurosurgery", "Automotive", "Aviation"],
+const fieldData: Record<string, { components: string[]; priorities: string[] }> = {
+  Medicine: {
+    components: ["Implant", "Suture", "Bone Plate", "Joint Prosthesis", "Surgical Mesh", "Stent", "Bone Cement"],
+    priorities: ["Minimum CO2", "Biodegradable", "Biocompatible", "ISO Certified", "Absorbable"],
   },
-  {
-    label: "Component",
-    items: ["Implant", "Suture", "Bone Plate", "Joint Prosthesis", "Stent", "Chassis Part", "Engine Mount", "Valve", "Casing"],
+  "Formula 1": {
+    components: ["Chassis Part", "Brake Disc", "Engine Mount", "Suspension Arm", "Roll Hoop"],
+    priorities: ["Maximum Strength", "Lightweight", "Heat Resistant", "Recyclable", "Cost Efficient"],
   },
-  {
-    label: "Priority",
-    items: ["Minimum CO₂", "Maximum Strength", "Biodegradable", "Lightweight", "Recyclable", "Cost Efficient", "Biocompatible", "ISO Certified"],
+  Aerospace: {
+    components: ["Fuselage Panel", "Turbine Blade", "Landing Gear", "Heat Shield", "Structural Frame"],
+    priorities: ["Lightweight", "Maximum Strength", "Heat Resistant", "Fatigue Resistant", "Recyclable"],
   },
-];
+  Orthopedics: {
+    components: ["Hip Prosthesis", "Knee Implant", "Spinal Cage", "Bone Screw", "Fixation Plate"],
+    priorities: ["Biocompatible", "Osseointegration", "Minimum CO2", "ISO Certified", "Long Lifespan"],
+  },
+  Cardiology: {
+    components: ["Heart Valve", "Stent", "Pacemaker Casing", "Vascular Graft", "Catheter"],
+    priorities: ["Biocompatible", "Corrosion Resistant", "Flexible", "Minimum CO2", "Absorbable"],
+  },
+  Dentistry: {
+    components: ["Crown", "Implant Post", "Filling", "Bridge", "Veneer"],
+    priorities: ["Aesthetic", "Biocompatible", "Durable", "Minimum CO2", "ISO Certified"],
+  },
+  Automotive: {
+    components: ["Body Panel", "Brake Disc", "Engine Block", "Exhaust", "Gear"],
+    priorities: ["Lightweight", "Recyclable", "Cost Efficient", "Heat Resistant", "Durable"],
+  },
+  Aviation: {
+    components: ["Wing Spar", "Cabin Panel", "Engine Nacelle", "Floor Beam", "Seat Frame"],
+    priorities: ["Lightweight", "Maximum Strength", "Fatigue Resistant", "Recyclable", "Flame Retardant"],
+  },
+};
+
+const fields = Object.keys(fieldData);
 
 const ITEM_HEIGHT = 60;
 
-function SlotColumn({ label, items, delay = 0 }: { label: string; items: string[]; delay?: number }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isSpinning, setIsSpinning] = useState(false);
-
+function SlotColumn({
+  label,
+  items,
+  activeIndex,
+  onChangeIndex,
+  delay = 0,
+}: {
+  label: string;
+  items: string[];
+  activeIndex: number;
+  onChangeIndex: (i: number) => void;
+  delay?: number;
+}) {
   const scrollTo = useCallback(
     (index: number) => {
-      const clamped = Math.max(0, Math.min(items.length - 1, index));
-      setIsSpinning(true);
-      setActiveIndex(clamped);
-      setTimeout(() => setIsSpinning(false), 400);
+      onChangeIndex(Math.max(0, Math.min(items.length - 1, index)));
     },
-    [items.length]
+    [items.length, onChangeIndex]
   );
 
-  // Build 5 visible items: -2, -1, 0, +1, +2
   const getVisibleItems = () => {
     const result: { text: string; offset: number; key: string }[] = [];
     for (let offset = -2; offset <= 2; offset++) {
       const idx = activeIndex + offset;
       if (idx >= 0 && idx < items.length) {
-        result.push({ text: items[idx], offset, key: `${idx}` });
+        result.push({ text: items[idx], offset, key: `${idx}-${items[idx]}` });
       } else {
         result.push({ text: "", offset, key: `empty-${offset}` });
       }
@@ -64,13 +91,8 @@ function SlotColumn({ label, items, delay = 0 }: { label: string; items: string[
   };
 
   return (
-    <div
-      className="flex flex-col items-center gap-3 animate-fade-in"
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-        {label}
-      </span>
+    <div className="flex flex-col items-center gap-3 animate-fade-in" style={{ animationDelay: `${delay}ms` }}>
+      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
 
       <button
         onClick={() => scrollTo(activeIndex - 1)}
@@ -89,11 +111,9 @@ function SlotColumn({ label, items, delay = 0 }: { label: string; items: string[
           boxShadow: "inset 0 2px 20px rgba(0,0,0,0.06), 0 4px 24px rgba(37,99,235,0.08)",
         }}
       >
-        {/* Top/bottom fade masks */}
         <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[hsl(214,100%,97%)] to-transparent z-20 pointer-events-none rounded-t-2xl" />
         <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[hsl(166,76%,97%)] to-transparent z-20 pointer-events-none rounded-b-2xl" />
 
-        {/* Center highlight */}
         <div
           className="absolute inset-x-2 z-10 rounded-xl pointer-events-none"
           style={{
@@ -107,20 +127,8 @@ function SlotColumn({ label, items, delay = 0 }: { label: string; items: string[
 
         <div className="flex flex-col items-center justify-center h-full py-3" style={{ perspective: "500px" }}>
           {getVisibleItems().map((item) => (
-            <div
-              key={item.key}
-              className={`flex items-center justify-center w-full ${
-                isSpinning ? "" : ""
-              }`}
-              style={getItemStyle(item.offset)}
-            >
-              <span
-                className={`text-sm whitespace-nowrap ${
-                  item.offset === 0
-                    ? "font-bold text-primary"
-                    : "text-muted-foreground"
-                }`}
-              >
+            <div key={item.key} className="flex items-center justify-center w-full" style={getItemStyle(item.offset)}>
+              <span className={`text-sm whitespace-nowrap ${item.offset === 0 ? "font-bold text-primary" : "text-muted-foreground"}`}>
                 {item.text}
               </span>
             </div>
@@ -140,7 +148,6 @@ function SlotColumn({ label, items, delay = 0 }: { label: string; items: string[
   );
 }
 
-// Floating chat messages
 const chatMessages = [
   { from: "bot", text: "Hello! I'm SurgGreen AI." },
   { from: "bot", text: "Select a field, component, and priority to get started." },
@@ -148,35 +155,48 @@ const chatMessages = [
 
 export default function SlotMachineSelector() {
   const navigate = useNavigate();
+  const [fieldIndex, setFieldIndex] = useState(0);
+  const [compIndex, setCompIndex] = useState(0);
+  const [prioIndex, setPrioIndex] = useState(0);
   const [messages, setMessages] = useState(chatMessages);
   const [typing, setTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const currentField = fields[fieldIndex];
+  const { components, priorities } = fieldData[currentField];
+
+  // Reset dependent columns when field changes
+  const handleFieldChange = useCallback((i: number) => {
+    setFieldIndex(i);
+    setCompIndex(0);
+    setPrioIndex(0);
+  }, []);
+
+  const selectedComponent = components[compIndex] || components[0];
+  const selectedPriority = priorities[prioIndex] || priorities[0];
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Update chat subtitle dynamically
+  const selectionText = `${currentField} / ${selectedComponent} / ${selectedPriority}`;
+
   const handleAnalyze = () => {
+    const query = `Find me a sustainable material for ${currentField}, component: ${selectedComponent}, priority: ${selectedPriority}`;
     setTyping(true);
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { from: "user", text: "Analyze this combination" },
-      ]);
+      setMessages((prev) => [...prev, { from: "user", text: query }]);
       setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "Analyzing... Redirecting to dashboard." },
-        ]);
+        setMessages((prev) => [...prev, { from: "bot", text: "Analyzing... Redirecting to dashboard." }]);
         setTyping(false);
-        setTimeout(() => navigate("/dashboard"), 800);
+        setTimeout(() => navigate("/dashboard", { state: { prefill: query } }), 800);
       }, 600);
     }, 200);
   };
 
   return (
     <section className="py-16 bg-background relative overflow-hidden">
-      {/* Decorative background orbs */}
       <div className="absolute top-10 left-10 w-72 h-72 rounded-full opacity-[0.04] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent)" }} />
       <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(161 93% 30%), transparent)" }} />
 
@@ -199,9 +219,9 @@ export default function SlotMachineSelector() {
               transform: "rotateY(-2deg) rotateX(1deg)",
             }}
           >
-            {columns.map((col, i) => (
-              <SlotColumn key={col.label} label={col.label} items={col.items} delay={i * 120} />
-            ))}
+            <SlotColumn label="Field" items={fields} activeIndex={fieldIndex} onChangeIndex={handleFieldChange} delay={0} />
+            <SlotColumn label="Component" items={components} activeIndex={compIndex} onChangeIndex={setCompIndex} delay={120} />
+            <SlotColumn label="Priority" items={priorities} activeIndex={prioIndex} onChangeIndex={setPrioIndex} delay={240} />
           </div>
 
           {/* Chat card */}
@@ -221,17 +241,14 @@ export default function SlotMachineSelector() {
               </div>
               <div>
                 <h3 className="font-display font-bold text-sm">SurgGreen AI</h3>
-                <span className="text-[10px] text-muted-foreground">Online — ready to help</span>
+                <span className="text-[10px] text-muted-foreground">Online</span>
               </div>
             </div>
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
               {messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}
-                >
+                <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${
                       msg.from === "user"
@@ -255,8 +272,9 @@ export default function SlotMachineSelector() {
               <div ref={chatEndRef} />
             </div>
 
-            {/* Action */}
-            <div className="px-4 py-3 border-t border-border">
+            {/* Selection preview + action */}
+            <div className="px-4 py-3 border-t border-border space-y-2">
+              <div className="text-[10px] text-muted-foreground text-center truncate">{selectionText}</div>
               <button
                 onClick={handleAnalyze}
                 className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2.5 rounded-full text-xs font-medium hover:shadow-card-hover transition-all hover:scale-[1.02] active:scale-[0.98]"
