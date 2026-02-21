@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Leaf, Car } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import medicalBg from "@/assets/medical-bg.jpg";
 
 const materials = [
   { name: "Titanium Grade 5", co2: 4.2, level: "medium" as const },
@@ -57,13 +56,24 @@ const Dashboard = () => {
   };
 
   return (
-    <div
-      className="h-[calc(100vh-4rem)] flex flex-col relative bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${medicalBg})` }}
-    >
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+    <div className="h-[calc(100vh-4rem)] flex flex-col relative overflow-hidden bg-background">
+      {/* Ambient gradient blobs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-[0.07] blur-3xl"
+          style={{ background: 'radial-gradient(circle, hsl(217 91% 53%), transparent 70%)' }}
+        />
+        <div
+          className="absolute top-1/2 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.06] blur-3xl"
+          style={{ background: 'radial-gradient(circle, hsl(173 84% 32%), transparent 70%)' }}
+        />
+        <div
+          className="absolute -bottom-20 right-1/3 w-[400px] h-[400px] rounded-full opacity-[0.05] blur-3xl"
+          style={{ background: 'radial-gradient(circle, hsl(217 91% 53%), transparent 70%)' }}
+        />
+      </div>
       {/* Top bar */}
-      <div className="relative z-10 bg-card/60 backdrop-blur-md border-b border-border/50 px-6 py-3 flex items-center gap-8">
+      <div className="relative z-10 bg-card/80 backdrop-blur-sm border-b border-border/30 px-6 py-3 flex items-center gap-8">
         <div className="flex items-center gap-2 text-sm">
           <Leaf className="w-4 h-4 text-secondary" />
           <span className="text-muted-foreground">CO₂ saved:</span>
@@ -82,7 +92,7 @@ const Dashboard = () => {
 
       <div className="flex flex-1 overflow-hidden relative z-10">
         {/* Sidebar */}
-        <aside className="w-1/4 min-w-[260px] border-r border-border/50 bg-card/60 backdrop-blur-md flex flex-col">
+        <aside className="w-1/4 min-w-[260px] border-r border-border/30 bg-card/70 backdrop-blur-sm flex flex-col">
           <div className="p-4 border-b border-border">
             <h3 className="font-display font-semibold text-sm mb-3">Filter by CO₂</h3>
             <div className="flex flex-wrap gap-2">
@@ -165,11 +175,7 @@ const Dashboard = () => {
           {/* Chat input redesign */}
           <div className="px-6 pb-6">
             <div
-              className="max-w-3xl mx-auto rounded-[20px] p-5 px-6 backdrop-blur-md"
-              style={{
-                background: 'rgba(255,255,255,0.12)',
-                border: '1px solid rgba(255,255,255,0.18)',
-              }}
+              className="max-w-3xl mx-auto rounded-[20px] p-5 px-6 backdrop-blur-sm border border-border/40 bg-card/70"
             >
               <div className="flex items-center gap-3">
                 <input
