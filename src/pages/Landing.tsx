@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import { ArrowRight, Leaf, BarChart3, ShieldCheck, Search, Cpu, MessageSquare } from "lucide-react";
+import medicalBg from "@/assets/medical-bg.jpg";
 
 const statCards = [
   { value: 25, suffix: "+", label: "Matériaux", sublabel: "analysés et certifiés" },
@@ -30,8 +31,12 @@ const Landing = () => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16">
-        <div className="max-w-3xl mx-auto text-center animate-fade-in">
+      <section
+        className="max-w-7xl mx-auto px-6 pt-20 pb-16 bg-cover bg-center bg-no-repeat relative"
+        style={{ backgroundImage: `url(${medicalBg})` }}
+      >
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-b-2xl" />
+        <div className="max-w-3xl mx-auto text-center animate-fade-in relative z-10">
           <h1 className="text-5xl md:text-6xl font-display font-bold leading-tight mb-6">
             La chirurgie{" "}
             <span className="text-primary">durable</span>
