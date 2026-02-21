@@ -102,7 +102,7 @@ const Materials = () => {
             className="bg-card rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all animate-fade-in"
             style={{ animationDelay: `${i * 30}ms` }}
           >
-            <MaterialModel category={mat.category} co2Level={mat.level} strength={mat.strength} />
+            <MaterialModel name={mat.name} category={mat.category} co2Level={mat.level} strength={mat.strength} />
 
             <div className="flex items-start justify-between mb-3 mt-3">
               <h3 className="font-display font-semibold text-sm">{mat.name}</h3>
