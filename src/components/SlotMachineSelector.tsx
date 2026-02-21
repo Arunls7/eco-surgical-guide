@@ -1,58 +1,67 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { ChevronUp, ChevronDown, Bot, Send } from "lucide-react";
+import { ChevronUp, ChevronDown, Bot, Send, Stethoscope, Car, Plane, Bone, Heart, Smile, Truck, Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const fieldData: Record<string, { components: string[]; priorities: string[] }> = {
+const fieldData: Record<string, { components: string[]; priorities: string[]; icon: typeof Stethoscope }> = {
   Medicine: {
     components: ["Implant", "Suture", "Bone Plate", "Joint Prosthesis", "Surgical Mesh", "Stent", "Bone Cement"],
     priorities: ["Minimum CO2", "Biodegradable", "Biocompatible", "ISO Certified", "Absorbable"],
+    icon: Stethoscope,
   },
   "Formula 1": {
     components: ["Chassis Part", "Brake Disc", "Engine Mount", "Suspension Arm", "Roll Hoop"],
     priorities: ["Maximum Strength", "Lightweight", "Heat Resistant", "Recyclable", "Cost Efficient"],
+    icon: Car,
   },
   Aerospace: {
     components: ["Fuselage Panel", "Turbine Blade", "Landing Gear", "Heat Shield", "Structural Frame"],
     priorities: ["Lightweight", "Maximum Strength", "Heat Resistant", "Fatigue Resistant", "Recyclable"],
+    icon: Navigation,
   },
   Orthopedics: {
     components: ["Hip Prosthesis", "Knee Implant", "Spinal Cage", "Bone Screw", "Fixation Plate"],
     priorities: ["Biocompatible", "Osseointegration", "Minimum CO2", "ISO Certified", "Long Lifespan"],
+    icon: Bone,
   },
   Cardiology: {
     components: ["Heart Valve", "Stent", "Pacemaker Casing", "Vascular Graft", "Catheter"],
     priorities: ["Biocompatible", "Corrosion Resistant", "Flexible", "Minimum CO2", "Absorbable"],
+    icon: Heart,
   },
   Dentistry: {
     components: ["Crown", "Implant Post", "Filling", "Bridge", "Veneer"],
     priorities: ["Aesthetic", "Biocompatible", "Durable", "Minimum CO2", "ISO Certified"],
+    icon: Smile,
   },
   Automotive: {
     components: ["Body Panel", "Brake Disc", "Engine Block", "Exhaust", "Gear"],
     priorities: ["Lightweight", "Recyclable", "Cost Efficient", "Heat Resistant", "Durable"],
+    icon: Truck,
   },
   Aviation: {
     components: ["Wing Spar", "Cabin Panel", "Engine Nacelle", "Floor Beam", "Seat Frame"],
     priorities: ["Lightweight", "Maximum Strength", "Fatigue Resistant", "Recyclable", "Flame Retardant"],
+    icon: Plane,
   },
 };
 
 const fields = Object.keys(fieldData);
 
-const ITEM_HEIGHT = 60;
+const CARD_HEIGHT = 100;
+const GAP = 12;
 
 function SlotColumn({
   label,
   items,
   activeIndex,
   onChangeIndex,
-  delay = 0,
+  isActive,
 }: {
   label: string;
   items: string[];
   activeIndex: number;
   onChangeIndex: (i: number) => void;
-  delay?: number;
+  isActive?: boolean;
 }) {
   const scrollTo = useCallback(
     (index: number) => {
@@ -61,88 +70,127 @@ function SlotColumn({
     [items.length, onChangeIndex]
   );
 
-  const getVisibleItems = () => {
-    const result: { text: string; offset: number; key: string }[] = [];
-    for (let offset = -2; offset <= 2; offset++) {
-      const idx = activeIndex + offset;
-      if (idx >= 0 && idx < items.length) {
-        result.push({ text: items[idx], offset, key: `${idx}-${items[idx]}` });
-      } else {
-        result.push({ text: "", offset, key: `empty-${offset}` });
-      }
-    }
+  // Build visible: prev, current, next
+  const getSlots = () => {
+    const result: { text: string; position: "prev" | "center" | "next"; idx: number }[] = [];
+    const prev = activeIndex - 1;
+    const next = activeIndex + 1;
+    if (prev >= 0) result.push({ text: items[prev], position: "prev", idx: prev });
+    else result.push({ text: "", position: "prev", idx: -1 });
+    result.push({ text: items[activeIndex], position: "center", idx: activeIndex });
+    if (next < items.length) result.push({ text: items[next], position: "next", idx: next });
+    else result.push({ text: "", position: "next", idx: -1 });
     return result;
   };
 
-  const getItemStyle = (offset: number) => {
-    const absOffset = Math.abs(offset);
-    const rotateX = offset * -20;
-    const translateZ = absOffset === 0 ? 40 : absOffset === 1 ? 10 : -20;
-    const translateY = offset * 8;
-    const opacity = absOffset === 0 ? 1 : absOffset === 1 ? 0.6 : 0.25;
-    const scale = absOffset === 0 ? 1.08 : absOffset === 1 ? 0.92 : 0.8;
-
-    return {
-      transform: `perspective(400px) rotateX(${rotateX}deg) translateZ(${translateZ}px) translateY(${translateY}px) scale(${scale})`,
-      opacity,
-      height: ITEM_HEIGHT,
-      transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
-    };
-  };
-
   return (
-    <div className="flex flex-col items-center gap-3 animate-fade-in" style={{ animationDelay: `${delay}ms` }}>
-      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
+    <div className="flex flex-col items-center">
+      {/* Label */}
+      <span
+        className={`text-xs font-bold uppercase tracking-[0.18em] mb-4 px-3 py-1 rounded ${
+          isActive
+            ? "bg-primary/10 text-primary border border-primary/30"
+            : "text-muted-foreground"
+        }`}
+      >
+        {label}
+      </span>
 
+      {/* Up arrow */}
       <button
         onClick={() => scrollTo(activeIndex - 1)}
-        className="w-9 h-9 rounded-full bg-card/80 backdrop-blur border border-border flex items-center justify-center hover:bg-accent hover:border-primary transition-all disabled:opacity-20 hover:scale-110"
+        className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center hover:bg-accent hover:border-primary/50 transition-all disabled:opacity-20 mb-3 group"
         disabled={activeIndex === 0}
         aria-label="Previous"
       >
-        <ChevronUp className="w-4 h-4 text-primary" />
+        <ChevronUp className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
       </button>
 
+      {/* Slot window */}
       <div
-        className="relative overflow-hidden rounded-2xl w-full"
+        className="relative w-full rounded-2xl overflow-hidden"
         style={{
-          height: ITEM_HEIGHT * 3 + 24,
-          background: "linear-gradient(135deg, hsl(214 100% 97%) 0%, hsl(166 76% 97%) 100%)",
-          boxShadow: "inset 0 2px 20px rgba(0,0,0,0.06), 0 4px 24px rgba(37,99,235,0.08)",
+          height: CARD_HEIGHT * 3 + GAP * 2 + 32,
+          background: "linear-gradient(180deg, hsl(210 40% 96% / 0.7) 0%, hsl(166 50% 96% / 0.5) 100%)",
+          boxShadow: "inset 0 4px 30px rgba(0,0,0,0.04)",
+          perspective: "800px",
         }}
       >
-        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[hsl(214,100%,97%)] to-transparent z-20 pointer-events-none rounded-t-2xl" />
-        <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[hsl(166,76%,97%)] to-transparent z-20 pointer-events-none rounded-b-2xl" />
-
+        {/* Top fade */}
         <div
-          className="absolute inset-x-2 z-10 rounded-xl pointer-events-none"
+          className="absolute inset-x-0 top-0 z-30 pointer-events-none"
           style={{
-            top: ITEM_HEIGHT + 8,
-            height: ITEM_HEIGHT + 8,
-            background: "hsl(var(--card))",
-            border: "2px solid hsl(var(--primary))",
-            boxShadow: "0 0 20px hsl(var(--primary) / 0.2), 0 0 40px hsl(var(--primary) / 0.08)",
+            height: 40,
+            background: "linear-gradient(to bottom, hsl(210 40% 96% / 0.9), transparent)",
+          }}
+        />
+        {/* Bottom fade */}
+        <div
+          className="absolute inset-x-0 bottom-0 z-30 pointer-events-none"
+          style={{
+            height: 40,
+            background: "linear-gradient(to top, hsl(166 50% 96% / 0.9), transparent)",
           }}
         />
 
-        <div className="flex flex-col items-center justify-center h-full py-3" style={{ perspective: "500px" }}>
-          {getVisibleItems().map((item) => (
-            <div key={item.key} className="flex items-center justify-center w-full" style={getItemStyle(item.offset)}>
-              <span className={`text-sm whitespace-nowrap ${item.offset === 0 ? "font-bold text-primary" : "text-muted-foreground"}`}>
-                {item.text}
-              </span>
-            </div>
-          ))}
+        {/* Cards container with 3D */}
+        <div
+          className="flex flex-col items-center justify-center h-full px-3 py-4"
+          style={{
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {getSlots().map((slot) => {
+            const isCenter = slot.position === "center";
+            const isPrev = slot.position === "prev";
+            const isNext = slot.position === "next";
+
+            const rotateX = isPrev ? 25 : isNext ? -25 : 0;
+            const translateZ = isCenter ? 30 : -10;
+            const scale = isCenter ? 1 : 0.88;
+            const opacity = isCenter ? 1 : slot.text ? 0.45 : 0;
+
+            return (
+              <div
+                key={`${slot.position}-${slot.idx}`}
+                className="w-full flex items-center justify-center transition-all duration-500 ease-out"
+                style={{
+                  height: CARD_HEIGHT,
+                  marginBottom: slot.position !== "next" ? GAP : 0,
+                  transform: `perspective(600px) rotateX(${rotateX}deg) translateZ(${translateZ}px) scale(${scale})`,
+                  opacity,
+                  transformOrigin: isPrev ? "bottom center" : isNext ? "top center" : "center",
+                }}
+              >
+                <div
+                  className={`w-full h-full rounded-xl flex items-center justify-center transition-all duration-500 ${
+                    isCenter
+                      ? "bg-card border-2 border-primary shadow-[0_0_24px_hsl(var(--primary)/0.15),0_4px_16px_rgba(0,0,0,0.06)]"
+                      : "bg-card/60 border border-border/50"
+                  }`}
+                >
+                  <span
+                    className={`text-sm transition-all duration-500 ${
+                      isCenter ? "font-bold text-primary text-base" : "text-muted-foreground font-medium"
+                    }`}
+                  >
+                    {slot.text}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
+      {/* Down arrow */}
       <button
         onClick={() => scrollTo(activeIndex + 1)}
-        className="w-9 h-9 rounded-full bg-card/80 backdrop-blur border border-border flex items-center justify-center hover:bg-accent hover:border-primary transition-all disabled:opacity-20 hover:scale-110"
+        className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center hover:bg-accent hover:border-primary/50 transition-all disabled:opacity-20 mt-3 group"
         disabled={activeIndex === items.length - 1}
         aria-label="Next"
       >
-        <ChevronDown className="w-4 h-4 text-primary" />
+        <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
       </button>
     </div>
   );
@@ -161,15 +209,26 @@ export default function SlotMachineSelector() {
   const [messages, setMessages] = useState(chatMessages);
   const [typing, setTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const [activeCol, setActiveCol] = useState<number | null>(null);
 
   const currentField = fields[fieldIndex];
   const { components, priorities } = fieldData[currentField];
 
-  // Reset dependent columns when field changes
   const handleFieldChange = useCallback((i: number) => {
     setFieldIndex(i);
     setCompIndex(0);
     setPrioIndex(0);
+    setActiveCol(0);
+  }, []);
+
+  const handleCompChange = useCallback((i: number) => {
+    setCompIndex(i);
+    setActiveCol(1);
+  }, []);
+
+  const handlePrioChange = useCallback((i: number) => {
+    setPrioIndex(i);
+    setActiveCol(2);
   }, []);
 
   const selectedComponent = components[compIndex] || components[0];
@@ -179,7 +238,6 @@ export default function SlotMachineSelector() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Update chat subtitle dynamically
   const selectionText = `${currentField} / ${selectedComponent} / ${selectedPriority}`;
 
   const handleAnalyze = () => {
@@ -197,40 +255,40 @@ export default function SlotMachineSelector() {
 
   return (
     <section className="py-16 bg-background relative overflow-hidden">
-      <div className="absolute top-10 left-10 w-72 h-72 rounded-full opacity-[0.04] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent)" }} />
-      <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(161 93% 30%), transparent)" }} />
+      {/* Decorative */}
+      <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full opacity-[0.03] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent)" }} />
+      <div className="absolute -bottom-20 -right-20 w-[500px] h-[500px] rounded-full opacity-[0.02] pointer-events-none" style={{ background: "radial-gradient(circle, hsl(161 93% 30%), transparent)" }} />
 
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-display title-hero text-center mb-4">
+        <h2 className="text-3xl md:text-4xl font-display title-hero text-center mb-3">
           <span className="text-gradient-primary">Find your green material</span>
         </h2>
         <p className="text-center text-muted-foreground text-sm mb-12 font-body max-w-lg mx-auto">
           Spin the drums, pick your combination, and let our AI find the best sustainable match.
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 max-w-5xl mx-auto items-start">
-          {/* 3D Slot columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 max-w-6xl mx-auto items-start">
+          {/* Slot machine frame */}
           <div
-            className="grid grid-cols-3 gap-5 p-6 rounded-3xl"
+            className="rounded-3xl p-5 md:p-7"
             style={{
-              background: "linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)",
-              boxShadow: "0 8px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
-              perspective: "800px",
-              transform: "rotateY(-2deg) rotateX(1deg)",
+              background: "linear-gradient(145deg, hsl(var(--card)) 0%, hsl(0 0% 95%) 100%)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)",
             }}
           >
-            <SlotColumn label="Field" items={fields} activeIndex={fieldIndex} onChangeIndex={handleFieldChange} delay={0} />
-            <SlotColumn label="Component" items={components} activeIndex={compIndex} onChangeIndex={setCompIndex} delay={120} />
-            <SlotColumn label="Priority" items={priorities} activeIndex={prioIndex} onChangeIndex={setPrioIndex} delay={240} />
+            <div className="grid grid-cols-3 gap-3 md:gap-5">
+              <SlotColumn label="Field" items={fields} activeIndex={fieldIndex} onChangeIndex={handleFieldChange} isActive={activeCol === 0} />
+              <SlotColumn label="Component" items={components} activeIndex={compIndex} onChangeIndex={handleCompChange} isActive={activeCol === 1} />
+              <SlotColumn label="Priority" items={priorities} activeIndex={prioIndex} onChangeIndex={handlePrioChange} isActive={activeCol === 2} />
+            </div>
           </div>
 
           {/* Chat card */}
           <div
-            className="bg-card rounded-2xl border border-border flex flex-col overflow-hidden animate-fade-in"
+            className="bg-card rounded-2xl border border-border flex flex-col overflow-hidden"
             style={{
-              boxShadow: "0 12px 48px rgba(37,99,235,0.1), 0 2px 8px rgba(0,0,0,0.04)",
-              animationDelay: "400ms",
-              height: 420,
+              boxShadow: "0 20px 60px rgba(37,99,235,0.08), 0 2px 8px rgba(0,0,0,0.04)",
+              height: 480,
             }}
           >
             {/* Header */}
@@ -272,7 +330,7 @@ export default function SlotMachineSelector() {
               <div ref={chatEndRef} />
             </div>
 
-            {/* Selection preview + action */}
+            {/* Footer */}
             <div className="px-4 py-3 border-t border-border space-y-2">
               <div className="text-[10px] text-muted-foreground text-center truncate">{selectionText}</div>
               <button
