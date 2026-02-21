@@ -29,20 +29,20 @@ const About = () => {
         {team.map((member, i) => (
           <div
             key={member.name}
-            className="bg-card rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all text-center animate-fade-in"
+            className="hover:scale-105 transition-transform text-center animate-fade-in"
             style={{ animationDelay: `${i * 100}ms` }}
           >
             {member.image ? (
-              <div className="w-20 h-24 mx-auto mb-4 bg-white p-1 shadow-md rounded-sm rotate-[-2deg]">
-                <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top" />
-              </div>
+              <img src={member.image} alt={member.name} className="w-full rounded-lg shadow-md" />
             ) : (
-              <div className="w-20 h-24 mx-auto mb-4 bg-primary/10 flex items-center justify-center rounded-sm">
-                <span className="text-lg font-display font-bold text-primary">{member.name.split(" ").map(n => n[0]).join("")}</span>
+              <div className="aspect-[3/4] bg-card rounded-lg shadow-md flex flex-col items-center justify-center p-4">
+                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+                  <span className="text-2xl font-display font-bold text-primary">{member.name.split(" ").map(n => n[0]).join("")}</span>
+                </div>
+                <h3 className="font-display font-semibold text-sm">{member.name}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
               </div>
             )}
-            <h3 className="font-display font-semibold text-sm">{member.name}</h3>
-            <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
           </div>
         ))}
       </div>
