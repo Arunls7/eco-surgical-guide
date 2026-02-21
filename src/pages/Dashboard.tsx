@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send, Leaf, Car } from "lucide-react";
+import { Leaf, Car } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
 
 const materials = [
@@ -33,7 +33,7 @@ const initialMessages: Message[] = [
   { role: "bot", content: "Hello! I'm your SurgGreen assistant. Ask me anything about sustainable surgical materials." },
 ];
 
-const suggestions = ["Best material for a hip prosthesis?", "Compare titanium vs steel", "Biodegradable materials"];
+
 
 const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -157,35 +157,41 @@ const Dashboard = () => {
             ))}
           </div>
 
-          {/* Suggestions */}
-          <div className="px-6 pb-2 flex flex-wrap gap-2">
-            {suggestions.map((s) => (
-              <button
-                key={s}
-                onClick={() => handleSend(s)}
-                className="text-xs px-3 py-1.5 rounded-full bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-
-          {/* Input */}
-          <div className="p-4 border-t border-border bg-card">
-            <div className="flex items-center gap-3 max-w-3xl mx-auto">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Ask your question..."
-                className="flex-1 bg-background rounded-xl px-4 py-3 text-sm outline-none border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-              />
-              <button
-                onClick={() => handleSend()}
-                className="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center hover:shadow-card-hover transition-all hover:scale-105"
-              >
-                <Send className="w-4 h-4" />
-              </button>
+          {/* Chat input redesign */}
+          <div className="px-6 pb-6">
+            <div
+              className="max-w-3xl mx-auto rounded-[20px] p-5 px-6"
+              style={{
+                background: '#111827',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                  placeholder="Describe your surgical need..."
+                  className="flex-1 bg-transparent border-none outline-none text-white placeholder-[#6b7280] text-base"
+                />
+                <button
+                  onClick={() => handleSend()}
+                  className="bg-primary text-primary-foreground rounded-xl px-6 py-3 text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+            <div className="max-w-3xl mx-auto flex flex-wrap gap-2 mt-3">
+              {["Hip prosthesis permanent", "Tibial plate young patient", "Absorbable sutures", "Bone graft spine fusion"].map((chip) => (
+                <button
+                  key={chip}
+                  onClick={() => handleSend(chip)}
+                  className="text-xs px-3.5 py-1 rounded-[20px] bg-card border border-border text-foreground/80 hover:border-primary/40 transition-colors"
+                >
+                  {chip}
+                </button>
+              ))}
             </div>
           </div>
         </main>

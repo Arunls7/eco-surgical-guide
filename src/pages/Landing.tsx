@@ -37,9 +37,10 @@ const Landing = () => {
       >
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-b-2xl" />
         <div className="max-w-3xl mx-auto text-center animate-fade-in relative z-10">
-          <h1 className="text-5xl md:text-6xl font-display font-bold leading-tight mb-6">
-            Sustainable{" "}
-            <span className="text-primary">Surgery</span>
+          <h1 className="text-5xl md:text-6xl font-display title-hero leading-tight mb-6">
+            <span className="text-[#111827]">Sustainable</span>
+            <br />
+            <span className="text-gradient-primary">Surgery</span>
           </h1>
           <p className="text-lg text-muted-foreground mb-4 font-body">
             <span className="font-semibold text-foreground">300M</span> surgeries/year · <span className="font-semibold text-foreground">0</span> ask about carbon.
