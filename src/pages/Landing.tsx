@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import { ArrowRight, Leaf, BarChart3, ShieldCheck, Search, Cpu, MessageSquare } from "lucide-react";
-import medicalBg from "@/assets/medical-bg.jpg";
+import medicalBg from "@/assets/medical-pattern-bg.jpg";
 
 const statCards = [
   { value: 25, suffix: "+", label: "Materials", sublabel: "analyzed & certified" },
@@ -29,13 +29,12 @@ const steps = [
 
 const Landing = () => {
   return (
-    <div className="min-h-screen">
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
+      style={{ backgroundImage: `url(${medicalBg})` }}
+    >
       {/* Hero */}
-      <section
-        className="max-w-7xl mx-auto px-6 pt-20 pb-16 bg-cover bg-center bg-no-repeat relative"
-        style={{ backgroundImage: `url(${medicalBg})` }}
-      >
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-b-2xl" />
+      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 relative">
         <div className="max-w-3xl mx-auto text-center animate-fade-in relative z-10">
           <h1 className="text-5xl md:text-6xl font-display title-hero leading-tight mb-6">
             <span className="text-[#111827]">Sustainable</span>

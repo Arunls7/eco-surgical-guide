@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Leaf, Car } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import medicalPatternBg from "@/assets/medical-pattern-bg.jpg";
 
 const materials = [
   { name: "Titanium Grade 5", co2: 4.2, level: "medium" as const },
@@ -56,22 +57,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col relative overflow-hidden bg-background">
-      {/* Ambient gradient blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-[0.07] blur-3xl"
-          style={{ background: 'radial-gradient(circle, hsl(217 91% 53%), transparent 70%)' }}
-        />
-        <div
-          className="absolute top-1/2 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.06] blur-3xl"
-          style={{ background: 'radial-gradient(circle, hsl(173 84% 32%), transparent 70%)' }}
-        />
-        <div
-          className="absolute -bottom-20 right-1/3 w-[400px] h-[400px] rounded-full opacity-[0.05] blur-3xl"
-          style={{ background: 'radial-gradient(circle, hsl(217 91% 53%), transparent 70%)' }}
-        />
-      </div>
+    <div
+      className="h-[calc(100vh-4rem)] flex flex-col relative overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${medicalPatternBg})` }}
+    >
       {/* Top bar */}
       <div className="relative z-10 bg-card/80 backdrop-blur-sm border-b border-border/30 px-6 py-3 flex items-center gap-8">
         <div className="flex items-center gap-2 text-sm">
