@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Leaf, Car } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import medicalPatternBg from "@/assets/medical-pattern-bg.jpg";
@@ -37,9 +38,19 @@ const initialMessages: Message[] = [
 
 
 const Dashboard = () => {
+  const location = useLocation();
+  const prefill = (location.state as { prefill?: string })?.prefill || "";
   const [messages, setMessages] = useState<Message[]>(initialMessages);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(prefill);
   const [filter, setFilter] = useState<"all" | "low" | "medium" | "high">("all");
+
+  // Auto-send prefilled message
+  useEffect(() => {
+    if (prefill) {
+      handleSend(prefill);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredMaterials = filter === "all" ? materials : materials.filter((m) => m.level === filter);
 
