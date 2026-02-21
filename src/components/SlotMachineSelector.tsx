@@ -86,18 +86,18 @@ function SlotColumn({
         <ChevronUp className="w-4 h-4 text-muted-foreground" />
       </button>
 
-      {/* Slot window */}
-      <div className="w-full flex flex-col gap-2">
+      {/* Slot window — fixed height container */}
+      <div className="w-full flex flex-col gap-2" style={{ minHeight: 132 }}>
         {/* Previous item */}
-        <div className="h-14 rounded-xl bg-muted/30 flex items-center justify-center transition-all duration-400">
-          <span className="text-xs text-muted-foreground/50 font-medium">
-            {prev >= 0 ? items[prev] : ""}
+        <div className="h-14 min-h-[3.5rem] rounded-xl bg-muted/30 flex items-center justify-center transition-all duration-400">
+          <span className="text-xs text-muted-foreground/50 font-medium truncate px-2">
+            {prev >= 0 ? items[prev] : "\u00A0"}
           </span>
         </div>
 
         {/* Active item */}
         <div
-          className="h-20 rounded-xl flex items-center justify-center transition-all duration-500 relative"
+          className="h-20 min-h-[5rem] rounded-xl flex items-center justify-center transition-all duration-500 relative"
           style={{
             background: `linear-gradient(135deg, hsl(${accentColor} / 0.08) 0%, hsl(${accentColor} / 0.03) 100%)`,
             border: `2px solid hsl(${accentColor})`,
@@ -105,7 +105,7 @@ function SlotColumn({
           }}
         >
           <span
-            className="text-sm font-bold transition-all duration-500"
+            className="text-sm font-bold transition-all duration-500 truncate px-2"
             style={{ color: `hsl(${accentColor})` }}
           >
             {items[activeIndex]}
@@ -113,9 +113,9 @@ function SlotColumn({
         </div>
 
         {/* Next item */}
-        <div className="h-14 rounded-xl bg-muted/30 flex items-center justify-center transition-all duration-400">
-          <span className="text-xs text-muted-foreground/50 font-medium">
-            {next < items.length ? items[next] : ""}
+        <div className="h-14 min-h-[3.5rem] rounded-xl bg-muted/30 flex items-center justify-center transition-all duration-400">
+          <span className="text-xs text-muted-foreground/50 font-medium truncate px-2">
+            {next < items.length ? items[next] : "\u00A0"}
           </span>
         </div>
       </div>
@@ -202,13 +202,13 @@ export default function SlotMachineSelector({ onFieldChange, variant = "default"
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 max-w-5xl mx-auto items-start">
           {/* Slot machine */}
           <div
-            className="rounded-2xl p-6 border border-border/50"
+            className="rounded-2xl p-6 border border-border/50 min-w-0"
             style={{
               background: "linear-gradient(160deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)",
               boxShadow: "0 8px 32px rgba(0,0,0,0.05)",
             }}
           >
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4" style={{ minHeight: 280 }}>
               <SlotColumn label="Field" items={fields} activeIndex={fieldIndex} onChangeIndex={handleFieldChange} accentColor={color} />
               <SlotColumn label="Component" items={components} activeIndex={compIndex} onChangeIndex={setCompIndex} accentColor={color} />
               <SlotColumn label="Priority" items={priorities} activeIndex={prioIndex} onChangeIndex={setPrioIndex} accentColor={color} />
