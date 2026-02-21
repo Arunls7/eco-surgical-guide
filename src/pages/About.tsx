@@ -1,10 +1,13 @@
 import { Leaf, Github } from "lucide-react";
+import jeremieImg from "@/assets/jeremie.jpg";
+import adelImg from "@/assets/adel.jpg";
+import arunImg from "@/assets/arun.jpg";
 
 const team = [
-  { name: "Jérimie Konda", initials: "JK", role: "Developer" },
-  { name: "Arun Kuganesan", initials: "AK", role: "Developer" },
-  { name: "Adel Noui", initials: "AN", role: "Developer" },
-  { name: "Gaïa Mezaïb", initials: "GM", role: "Developer" },
+  { name: "Jérimie Konda", role: "Developer", image: jeremieImg },
+  { name: "Arun Kuganesan", role: "Developer", image: arunImg },
+  { name: "Adel Noui", role: "Developer", image: adelImg },
+  { name: "Gaïa Mezaïb", role: "Developer", image: null },
 ];
 
 const About = () => {
@@ -29,9 +32,15 @@ const About = () => {
             className="bg-card rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all text-center animate-fade-in"
             style={{ animationDelay: `${i * 100}ms` }}
           >
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <span className="text-lg font-display font-bold text-primary">{member.initials}</span>
-            </div>
+            {member.image ? (
+              <div className="w-20 h-24 mx-auto mb-4 bg-white p-1 shadow-md rounded-sm rotate-[-2deg]">
+                <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top" />
+              </div>
+            ) : (
+              <div className="w-20 h-24 mx-auto mb-4 bg-primary/10 flex items-center justify-center rounded-sm">
+                <span className="text-lg font-display font-bold text-primary">{member.name.split(" ").map(n => n[0]).join("")}</span>
+              </div>
+            )}
             <h3 className="font-display font-semibold text-sm">{member.name}</h3>
             <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
           </div>
