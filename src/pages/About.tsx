@@ -3,6 +3,7 @@ import jeremieImg from "@/assets/jeremie.jpg";
 import adelImg from "@/assets/adel.jpg";
 import arunImg from "@/assets/arun.jpg";
 import gaiaImg from "@/assets/gaia.png";
+import medicalPatternBg from "@/assets/medical-pattern-bg.jpg";
 
 const team = [
   { name: "Jérémie Konda", role: "Full-Stack Engineer", image: jeremieImg },
@@ -13,7 +14,11 @@ const team = [
 
 const About = () => {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-20">
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
+      style={{ backgroundImage: `url(${medicalPatternBg})` }}
+    >
+      <div className="max-w-5xl mx-auto px-6 py-20">
 
       {/* Hero / Mission */}
       <section className="mb-28">
@@ -82,6 +87,7 @@ const About = () => {
         <div className="inline-flex items-center gap-2.5 bg-stat-card text-stat-card-foreground px-6 py-3 rounded-full text-sm font-sans font-medium tracking-wide">
           HackEurope Paris 2025 &middot; CentraleSupelec &middot; Sustainability Track &middot; Sponsored by Crusoe and Anthropic
         </div>
+      </div>
       </div>
     </div>
   );
