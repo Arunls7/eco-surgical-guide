@@ -58,7 +58,7 @@ const Landing = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
 
         {/* Slot machine content on top */}
-        <div className="relative z-10 flex-1 flex items-center">
+        <div className="relative z-10 flex-1 flex items-center justify-center w-full">
           <SlotMachineSelector onFieldChange={setCurrentField} variant="hero" />
         </div>
 
