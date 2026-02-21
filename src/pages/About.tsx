@@ -25,7 +25,7 @@ const About = () => {
       <h2 className="text-2xl font-display font-semibold text-center mb-8">
         Our <span className="text-primary">Team</span>
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 max-w-3xl mx-auto">
         {team.map((member, i) => (
           <div
             key={member.name}
@@ -33,11 +33,11 @@ const About = () => {
             style={{ animationDelay: `${i * 100}ms` }}
           >
             {member.image ? (
-              <img src={member.image} alt={member.name} className="w-full rounded-lg shadow-md" />
+              <img src={member.image} alt={member.name} className="w-40 h-auto mx-auto rounded-lg shadow-md" />
             ) : (
-              <div className="aspect-[3/4] bg-card rounded-lg shadow-md flex flex-col items-center justify-center p-4">
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                  <span className="text-2xl font-display font-bold text-primary">{member.name.split(" ").map(n => n[0]).join("")}</span>
+              <div className="w-40 aspect-[3/4] mx-auto bg-card rounded-lg shadow-md flex flex-col items-center justify-center p-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+                  <span className="text-xl font-display font-bold text-primary">{member.name.split(" ").map(n => n[0]).join("")}</span>
                 </div>
                 <h3 className="font-display font-semibold text-sm">{member.name}</h3>
                 <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
