@@ -1,6 +1,11 @@
 import { Leaf, Github } from "lucide-react";
 
-const team = [{ name: "Jérimie Konda" }, { name: "Arun Kuganesan" }, { name: "Adel Noui" }, { name: "Gaïa Mezaïb" }];
+const team = [
+  { name: "Jérimie Konda", initials: "JK", role: "Developer" },
+  { name: "Arun Kuganesan", initials: "AK", role: "Developer" },
+  { name: "Adel Noui", initials: "AN", role: "Developer" },
+  { name: "Gaïa Mezaïb", initials: "GM", role: "Developer" },
+];
 
 const About = () => {
   return (
