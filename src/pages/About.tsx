@@ -1,11 +1,6 @@
 import { Leaf, Github } from "lucide-react";
 
-const team = [
-  { name: "Alice Dupont", role: "Lead Developer", initials: "AD" },
-  { name: "Mehdi Ben Salah", role: "Data Scientist", initials: "MB" },
-  { name: "Clara Zhang", role: "UX Designer", initials: "CZ" },
-  { name: "Thomas Lefèvre", role: "Biomedical Engineer", initials: "TL" },
-];
+const team = [{ name: "Jérimie Konda" }, { name: "Arun Kuganesan" }, { name: "Adel Noui" }, { name: "Gaïa Mezaïb" }];
 
 const About = () => {
   return (
@@ -14,8 +9,8 @@ const About = () => {
         About <span className="text-primary">Us</span>
       </h1>
       <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-16 font-body">
-        SurgGreen is a platform that helps healthcare professionals reduce the carbon footprint
-        of their surgical procedures by offering certified sustainable alternatives.
+        SurgGreen is a platform that helps healthcare professionals reduce the carbon footprint of their surgical
+        procedures by offering certified sustainable alternatives.
       </p>
 
       {/* Team */}
@@ -44,10 +39,10 @@ const About = () => {
           Our <span className="text-primary">Mission</span>
         </h2>
         <p className="text-muted-foreground text-sm leading-relaxed font-body">
-          Every year, over 300 million surgical procedures are performed worldwide.
-          The environmental impact of these procedures — from the materials used to the waste generated — is rarely questioned.
-          SurgGreen aims to change that by providing surgeons with the data and tools needed to make
-          informed, sustainable choices without ever compromising patient safety.
+          Every year, over 300 million surgical procedures are performed worldwide. The environmental impact of these
+          procedures — from the materials used to the waste generated — is rarely questioned. SurgGreen aims to change
+          that by providing surgeons with the data and tools needed to make informed, sustainable choices without ever
+          compromising patient safety.
         </p>
       </div>
 
