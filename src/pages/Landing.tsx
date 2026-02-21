@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import { ArrowRight, Leaf, BarChart3, ShieldCheck, Search, Cpu, MessageSquare } from "lucide-react";
+import { ArrowRight, Leaf, BarChart3, ShieldCheck, Search, Cpu, MessageSquare, Check, Zap, Shield, FileCheck } from "lucide-react";
 import medicalBg from "@/assets/medical-pattern-bg.jpg";
 
 const statCards = [
@@ -101,6 +101,104 @@ const Landing = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed font-body">{step.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SurgGreen Commits */}
+      <section className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-14">
+            <span className="inline-block border border-border text-muted-foreground text-xs font-sans tracking-widest uppercase px-4 py-1.5 rounded-full mb-4">
+              Commitment
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display title-hero">
+              <span className="text-[#111827]">SurgGreen takes</span>
+              <br />
+              <span className="text-gradient-primary">responsibility.</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto items-center">
+            {/* Left: Feature tags */}
+            <div className="flex flex-col items-start relative pl-4">
+              <div className="absolute left-[22px] top-5 bottom-5 w-px border-l-2 border-dashed border-border" />
+              {[
+                { text: "Carbon footprint calculation", active: false },
+                { text: "Clinical performance ranking", active: false },
+                { text: "ISO 14040 LCA data", active: true },
+                { text: "CSRD compliance ready", active: false },
+                { text: "Real-time recommendations", active: false },
+              ].map((tag) => (
+                <div key={tag.text} className="flex items-center gap-3 py-3 relative z-10">
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                      tag.active
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                  </div>
+                  <span
+                    className={`text-sm font-sans px-3 py-1.5 rounded-full border ${
+                      tag.active
+                        ? "border-primary text-primary font-bold bg-accent"
+                        : "border-border text-muted-foreground bg-card"
+                    }`}
+                  >
+                    {tag.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Center: Logo circle */}
+            <div className="flex flex-col items-center gap-4">
+              <div
+                className="w-[180px] h-[180px] rounded-full bg-card flex items-center justify-center shadow-card"
+                style={{ border: '3px solid #2563eb' }}
+              >
+                <Leaf className="w-16 h-16 text-primary" />
+              </div>
+              <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground text-xs font-medium px-4 py-1.5 rounded-full">
+                <Check className="w-3 h-3" /> Verified Green
+              </span>
+              <span className="inline-flex items-center text-xs font-sans text-muted-foreground border border-border px-4 py-1.5 rounded-full">
+                Carbon neutral by 2030
+              </span>
+            </div>
+
+            {/* Right: Feature blocks */}
+            <div className="space-y-6">
+              {[
+                {
+                  icon: Zap,
+                  title: "Carbon Neutrality",
+                  desc: "Every material recommendation includes full lifecycle CO2 data sourced from ISO 14040 certified studies.",
+                },
+                {
+                  icon: Shield,
+                  title: "Clinical Safety First",
+                  desc: "Sustainability is never prioritized over patient outcomes. All alternatives meet strict biocompatibility standards.",
+                },
+                {
+                  icon: FileCheck,
+                  title: "Regulatory Compliance",
+                  desc: "Built for CSRD reporting requirements. Export-ready sustainability reports for hospital procurement teams.",
+                },
+              ].map((block) => (
+                <div key={block.title} className="flex gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center shrink-0">
+                    <block.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-display font-semibold text-sm mb-1">{block.title}</h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed font-sans">{block.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
